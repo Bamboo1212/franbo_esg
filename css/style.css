@@ -1,0 +1,1633 @@
+/* ==========================================================
+
+  正德海運 ESG — 首頁
+  依 Figma「index」(node 1:2) 切版，設計基準 1920×4860
+  內容容器 1440 置中（1920 時左右各 240）
+
+  區塊排列（設計稿絕對座標）
+    banner        0    – 870
+    互動專區       870  – 1340   ← 磚塊刻意壓在最新消息區上方 200px
+    最新消息       1340 – 2562
+    永續經營       2562 – 3443
+    報告書下載     3443 – 4132
+    footer        4132 – 4860
+
+========================================================== */
+
+:root {
+  /* 容器左右最小留白，各斷點會調整 */
+  --pad: 40px;
+}
+
+/* ----------------------------------------------------------
+  共用
+---------------------------------------------------------- */
+
+.inner {
+  width: min(var(--container), 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+/* 區塊標題：中文大標 + 英文副標 */
+.section-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(28px, 2.2vw, 42px);
+  line-height: 1.5;
+  letter-spacing: 1px;
+  color: var(--deep-blue);
+}
+
+.section-title p {
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: clamp(18px, 1.25vw, 24px);
+  line-height: 1.3;
+  letter-spacing: 1px;
+  color: var(--deep-blue);
+}
+
+.section-title--white h2,
+.section-title--white p {
+  color: var(--white);
+}
+
+.section-title--center {
+  align-items: center;
+  text-align: center;
+}
+
+/* 膠囊按鈕：hover 時文字上滑、箭頭右移 */
+.btn-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 200px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 25px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-align: center;
+  transition: .3s ease;
+}
+
+.btn-pill-txt {
+  position: relative;
+  height: 28px;
+  overflow: hidden;
+}
+
+.btn-pill-txt span {
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  white-space: nowrap;
+  transition: transform .35s ease;
+}
+
+.btn-pill-arrow {
+  position: relative;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.btn-pill-arrow img {
+  position: absolute;
+  top: 0;
+  transition: transform .35s ease;
+}
+
+.btn-pill-arrow img:first-child { left: -28px; }
+.btn-pill-arrow img:last-child  { left: 0; }
+
+.btn-pill:hover .btn-pill-txt span   { transform: translateY(-28px); }
+.btn-pill:hover .btn-pill-arrow img  { transform: translateX(28px); }
+
+.btn-pill--orange {
+  background: var(--orange);
+  color: var(--white);
+}
+
+.btn-pill--orange:hover { color: var(--white); }
+
+.btn-pill--white {
+  background: var(--white);
+  color: var(--theme);
+}
+
+.btn-pill--white:hover { color: var(--theme); }
+
+.btn-pill--outline {
+  border: 1.5px solid var(--theme);
+  border-radius: 30px;
+  background: transparent;
+  color: var(--theme);
+}
+
+.btn-pill--outline:hover { color: var(--theme); }
+
+
+/* ----------------------------------------------------------
+  header — 透明疊在 banner 上
+---------------------------------------------------------- */
+
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 48px;
+}
+
+.logo {
+  flex: none;
+  display: block;
+  width: 220px;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: 64px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-nav a {
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.main-nav a:hover { opacity: .7; color: var(--white); }
+
+.header-right {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.icon-btn,
+.lang-switch {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.lang-switch {
+  gap: 8px;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 24px;
+  border-radius: 25px;
+  background: var(--white);
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  color: var(--theme);
+}
+
+.btn-download:hover { color: var(--theme); opacity: .85; }
+
+/* 設計稿的 icon 是 22.22px 放在 20px 的裁切框裡 */
+.btn-download-icon {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.btn-download-icon img {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+}
+
+/* 漢堡鍵：桌機隱藏 */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--white);
+  transition: .3s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+.nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* ----------------------------------------------------------
+  banner
+---------------------------------------------------------- */
+
+.banner {
+  position: relative;
+  height: 870px;
+  overflow: hidden;
+  background: var(--deep-blue);
+}
+
+.banner-slider,
+.banner-slider .carousel-inner,
+.banner-slider .carousel-item {
+  height: 100%;
+}
+
+.banner-slider .carousel-item {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 設計稿的取景框。這組百分比的長寬比正好等於原圖比例，
+   所以是精確取景、不會變形，且縮放時仍然成立 */
+.banner-slider .carousel-item img {
+  position: absolute;
+  top: -35.87%;
+  left: -5.54%;
+  width: 117.58%;
+  height: 165.97%;
+  max-width: none;
+}
+
+.banner-txt {
+  position: absolute;
+  top: 187px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  width: min(var(--container), 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+.banner-txt h1 {
+  max-width: 508px;
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: clamp(28px, 2.7vw, 52px);
+  line-height: 1.35;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+
+.banner-txt p {
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: clamp(18px, 1.67vw, 32px);
+  line-height: 1.5;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.banner-controls {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 44px;
+  width: min(var(--container), 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+.banner-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  color: var(--white);
+  transition: .3s ease;
+}
+
+.banner-nav:hover { opacity: .7; }
+
+.banner-prev img { transform: rotate(180deg); }
+
+.banner-counter {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 120px;
+  background: rgba(0, 0, 0, .3);
+}
+
+.banner-counter-num {
+  font-family: 'Jost', sans-serif;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.banner-counter-ring {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  pointer-events: none;
+}
+
+
+/* ----------------------------------------------------------
+  互動專區
+---------------------------------------------------------- */
+
+.inter-section {
+  position: relative;
+  z-index: 3;
+  padding: 140px 0 80px;
+  /* 設計稿刻意讓磚塊壓在最新消息區上方 200px（870+670-200=1340） */
+  margin-bottom: -200px;
+}
+
+.inter-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 134px;
+  /* 左側對齊容器，右側一路延伸出畫面外（磚塊被裁切） */
+  padding-left: calc((100% - min(var(--container), 100% - var(--pad) * 2)) / 2);
+}
+
+.inter-side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  width: 232px;
+}
+
+.inter-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.inter-nav-btn {
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: .3s ease;
+}
+
+.inter-nav-btn:disabled { opacity: .35; cursor: default; }
+.inter-nav-btn:not(:disabled):hover { opacity: .7; }
+
+.inter-nav-prev img { transform: scaleX(-1); }
+
+.inter-items {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.inter-items-track {
+  display: flex;
+  gap: 32px;
+  transition: transform .5s ease;
+}
+
+.inter-item {
+  position: relative;
+  flex: 0 0 342px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 342px;
+  height: 450px;
+  padding: 150px 48px;
+  overflow: hidden;
+}
+
+.inter-item-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.inter-item-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .6s ease;
+}
+
+/* 第 3 張（問答互動）設計稿的取景偏左 */
+.inter-item-bg--3 img {
+  position: absolute;
+  top: 0;
+  left: -61.01%;
+  width: 197.5%;
+  height: 100%;
+  max-width: none;
+  object-fit: fill;
+}
+
+.inter-item-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 27, 53, .5);
+  transition: background .3s ease;
+}
+
+.inter-item-title {
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--white);
+}
+
+.inter-item:hover .inter-item-bg img { transform: scale(1.06); }
+.inter-item:hover .inter-item-tint   { background: rgba(5, 27, 53, .35); }
+
+
+/* ----------------------------------------------------------
+  最新消息
+---------------------------------------------------------- */
+
+.news-section {
+  position: relative;
+  z-index: 1;
+  padding-top: 187px;
+}
+
+/* 背景＋藍色遮罩的容器；桌機捲動場景模式下改成 sticky（見檔尾） */
+.news-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.news-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.news-bg img {
+  position: absolute;
+  top: 0;
+  left: -2.92%;
+  width: 105.83%;
+  height: 103.93%;
+  max-width: none;
+}
+
+.news-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 84, 141, .95);
+  pointer-events: none;
+}
+
+.news-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 88px;
+  padding: 32px 0 80px;
+  width: min(var(--container), 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+.news-side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  width: 278px;
+}
+
+.news-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.news-filter li {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.news-filter li:not(.active):hover { opacity: .7; }
+
+.news-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 22px;
+  line-height: 33px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.news-filter-line { flex: none; }
+
+.news-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 80px;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+}
+
+.news-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: .5px solid var(--white);
+}
+
+.news-item-thumb {
+  flex: 0 0 244px;
+  display: block;
+  width: 244px;
+  height: 183px;
+  overflow: hidden;
+}
+
+.news-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .6s ease;
+}
+
+.news-item-thumb:hover img { transform: scale(1.06); }
+
+.news-item-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 660px;
+}
+
+.news-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.news-item-date {
+  font-family: 'Amiri', serif;
+  font-size: 22px;
+  line-height: 28.6px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.news-item-sep { flex: none; }
+
+.news-item-cat {
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.news-item-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.news-item-title a { color: var(--white); }
+.news-item-title a:hover { opacity: .75; color: var(--white); }
+
+.news-item-excerpt {
+  margin: 0;
+  font-size: 18px;
+  line-height: 31.5px;
+  letter-spacing: 1px;
+  color: var(--gray);
+}
+
+
+/* ----------------------------------------------------------
+  永續經營 / ESG Data
+---------------------------------------------------------- */
+
+.data-section {
+  position: relative;
+  padding: 42px 0 14px;
+  overflow: hidden;
+  background: var(--deep-blue);
+}
+
+.data-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.data-bg img {
+  position: absolute;
+  top: -22.99%;
+  left: 0;
+  width: 100%;
+  height: 145.29%;
+  max-width: none;
+}
+
+/* 地球：設計稿 963×421，置於 left 484 / top 460，只露出圖的上緣 */
+.data-earth {
+  position: absolute;
+  top: 460px;
+  left: 50%;
+  z-index: 1;
+  width: 963px;
+  height: 421px;
+  margin-left: -476px; /* 484 - 960 */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 設計稿只露出原圖上緣（228.87% 高、對齊頂端） */
+.data-earth img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 228.87%;
+  max-width: none;
+}
+
+.data-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+  width: min(1538px, 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+.data-stage-wrap {
+  width: 100%;
+  height: 679.277px;
+}
+
+/* 舞台固定 1538 寬，用 left:50% + 負 margin 置中，
+   這樣窄於 1538 時仍是左右對稱溢出，再由 scale() 縮回容器內 */
+.data-stage {
+  position: relative;
+  left: 50%;
+  width: 1538px;
+  height: 679.277px;
+  margin-left: -769px;
+}
+
+/* 必須指定顯示尺寸：原圖是 @2x 匯出的 2589×997，
+   不指定的話會被 base.css 的 img{max-width:100%} 撐成舞台寬，橢圓就對不上圓圈 */
+.data-orbit-line {
+  position: absolute;
+  top: 181.18px;
+  left: calc(50% + .5px);
+  width: 1294.173px;
+  height: 498.101px;
+  max-width: none;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* 數據球（輪播）
+   每顆都定位在軌道中心 (769, 430)，實際位置由 transform 決定。
+   軌道是一條隱形橢圓（rx 488.82 / ry 261），剛好通過設計稿的三個球心：
+   上 (769,169)、右 (1255,402)、左 (283,402)。
+   下面的 data-slot 規則是 JS 接手前的初始畫面，JS 會用相同數值接著動。 */
+.data-orb {
+  position: absolute;
+  top: 261px;   /* 430 - 169 */
+  left: 600px;  /* 769 - 169 */
+  width: 338px;
+  height: 338px;
+}
+
+.data-orb[aria-hidden="true"] { pointer-events: none; }
+
+/* 5 顆球的外層，與舞台同大小；捲動場景的「噴發」只動這層，不碰輪播控制的 .data-orb */
+.data-orbs {
+  position: absolute;
+  inset: 0;
+}
+
+@media (min-width: 992px) {
+  .data-orb[data-slot="0"] { transform: translate(0, -261px); }
+  .data-orb[data-slot="1"] { transform: translate(486px, -28px); }
+  .data-orb[data-slot="2"] { transform: translate(259.4px, 221.2px) scale(.5); opacity: 0; }
+  .data-orb[data-slot="3"] { transform: translate(-259.4px, 221.2px) scale(.5); opacity: 0; }
+  .data-orb[data-slot="4"] { transform: translate(-486px, -28px); }
+}
+
+/* 圓環用百分比，orb 不論多大都維持設計稿比例
+   （外環 353.6/338 = 104.62%、內環 307/338 = 90.83%、內環上緣 16/338 = 4.73%） */
+.data-orb-ring-outer {
+  position: absolute;
+  top: -2.31%;
+  left: -0.31%;
+  width: 104.62%;
+  height: 104.62%;
+  pointer-events: none;
+}
+
+.data-orb-ring-inner {
+  position: absolute;
+  top: 4.73%;
+  left: 50%;
+  width: 90.83%;
+  height: 90.83%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.data-orb-text {
+  position: absolute;
+  top: 75px;
+  left: 81px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 31px;
+  width: 176px;
+}
+
+.data-orb-esg {
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 36px;
+  letter-spacing: 2px;
+  text-align: center;
+  color: var(--white);
+}
+
+.data-orb-esg em {
+  font-style: normal;
+  color: #7EE904;
+}
+
+.data-orb-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+/* 數值列不受 176px 文字欄寬限制（設計稿同樣是 nowrap、可溢出） */
+.data-orb-value {
+  flex: none;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.data-value {
+  font-family: 'Jost', sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 4.2vw, 80px);
+  line-height: 56px;
+  letter-spacing: 1px;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.data-unit {
+  flex: none;
+  width: 24px;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--white);
+}
+
+.data-orb-label {
+  margin: 0;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 1px;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.data-slide-nav {
+  position: absolute;
+  top: 369px;
+  z-index: 2;
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: .3s ease;
+}
+
+.data-slide-nav:hover { opacity: .7; }
+
+.data-slide-prev { left: 0; }
+.data-slide-prev img { transform: scaleX(-1); }
+.data-slide-next { left: 1472px; }
+
+
+/* ----------------------------------------------------------
+  報告書下載
+---------------------------------------------------------- */
+
+.download-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  background: var(--theme);
+}
+
+.download-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.download-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.download-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  width: min(1300px, 100% - var(--pad) * 2);
+  padding: 80px;
+  background: var(--white);
+}
+
+.download-content {
+  flex: 0 1 464px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 464px;
+}
+
+.download-body {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.download-desc {
+  margin: 0;
+  font-size: 18px;
+  line-height: 31.5px;
+  letter-spacing: 1px;
+  color: var(--black);
+}
+
+.download-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.download-cover {
+  flex: none;
+  width: 520px;
+  height: 369px;
+  box-shadow: -4px 4px 18px 7px rgba(0, 0, 0, .15);
+}
+
+.download-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+/* ----------------------------------------------------------
+  footer
+---------------------------------------------------------- */
+
+.site-footer {
+  background: var(--deep-blue);
+  color: var(--white);
+  position: relative;
+  z-index: 999;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  padding: 48px 0;
+  width: min(var(--container), 100% - var(--pad) * 2);
+  margin-inline: auto;
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.footer-brand {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.footer-brand-head {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.footer-logo {
+  display: block;
+  width: 200px;
+}
+
+.footer-logo img {
+  display: block;
+  width: 100%;
+  height: 58px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  font-style: normal;
+}
+
+.footer-contact p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.footer-links {
+  flex: 0 1 952px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  max-width: 952px;
+}
+
+.footer-cols {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-col h3 {
+  margin: 0 0 20px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-col a {
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, .7);
+}
+
+.footer-col a:hover { color: var(--white); }
+
+.footer-flat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 32px;
+  padding-top: 48px;
+  border-top: .5px solid var(--white);
+}
+
+.footer-flat a {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+.footer-flat a:hover { color: var(--white); opacity: .7; }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+}
+
+.footer-copy {
+  margin: 0;
+  opacity: .6;
+}
+
+.footer-policy {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.footer-policy a {
+  color: var(--white);
+  opacity: .6;
+}
+
+.footer-policy a:hover { color: var(--white); opacity: 1; }
+
+
+/* ==========================================================
+
+  RWD
+  設計稿只有 1920，以下斷點為依比例推算，非照稿
+
+========================================================== */
+
+/* ---------- 1600 以下：導覽列縮排、數據區舞台開始縮放 ---------- */
+@media (max-width: 1599px) {
+  /* 1920 的完整尺寸在這裡塞不下 logo + 7 個項目 + 右側群組 */
+  .header-inner { padding: 24px 32px; }
+
+  .logo { width: 190px; }
+  .logo img { height: 56px; }
+
+  .main-nav { gap: 8px; }
+  .main-nav a { padding: 8px; font-size: 17px; }
+
+  .header-right { gap: 24px; }
+
+  .data-stage {
+    transform: scale(.82);
+    transform-origin: top center;
+  }
+
+  .data-stage-wrap { height: 557px; }
+
+  .data-earth {
+    top: 400px;
+    width: 790px;
+    height: 345px;
+    margin-left: -390px;
+  }
+}
+
+/* ---------- 1400 以下 ---------- */
+@media (max-width: 1399px) {
+  .inter-section { padding-top: 110px; }
+
+  .news-section { padding-top: 140px; }
+
+  .news-inner { gap: 56px; }
+
+  .news-item-body { max-width: none; }
+
+  .data-stage { transform: scale(.72); }
+  .data-stage-wrap { height: 489px; }
+
+  .data-earth {
+    top: 360px;
+    width: 700px;
+    height: 306px;
+    margin-left: -345px;
+  }
+
+  .download-card { padding: 56px; }
+  .download-cover { width: 440px; height: 312px; }
+}
+
+/* ---------- 1200 以下：導覽列收成漢堡 ---------- */
+@media (max-width: 1199px) {
+  :root { --pad: 32px; }
+
+  .header-inner { padding: 20px 32px; }
+
+  .logo { width: 180px; }
+  .logo img { height: 52px; }
+
+  .nav-toggle { display: flex; order: 3; }
+
+  .header-right { order: 2; gap: 20px; }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    order: 4;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    max-height: 0;
+    padding: 0 32px;
+    overflow: hidden;
+    background: rgba(5, 27, 53, .97);
+    transition: max-height .35s ease, padding .35s ease;
+  }
+
+  .main-nav.is-open {
+    max-height: 520px;
+    padding: 8px 32px 24px;
+  }
+
+  .main-nav a {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .main-nav a:last-child { border-bottom: 0; }
+
+  .banner { height: 680px; }
+  .banner-txt { top: 150px; }
+
+  .inter-inner { gap: 64px; }
+  .inter-side { width: 200px; }
+
+  /* 磚塊不再壓在藍色區塊上 */
+  .inter-section { margin-bottom: 0; padding-bottom: 100px; }
+  .news-section { padding-top: 100px; }
+
+  .data-stage { transform: scale(.6); }
+  .data-stage-wrap { height: 408px; }
+
+  .data-earth {
+    top: 300px;
+    width: 580px;
+    height: 254px;
+    margin-left: -286px;
+  }
+
+  .download-card { gap: 32px; padding: 48px; }
+  .download-cover { width: 360px; height: 256px; }
+
+  .footer-top { flex-direction: column; gap: 56px; }
+  .footer-links { flex: 1 1 auto; max-width: none; width: 100%; }
+}
+
+/* ---------- 992 以下：主要區塊改上下排 ---------- */
+@media (max-width: 991px) {
+  .banner { height: 560px; }
+  .banner-txt { top: 120px; }
+  .banner-controls { gap: 24px; }
+
+  .inter-inner {
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 0;
+  }
+
+  .inter-side {
+    width: min(var(--container), 100% - var(--pad) * 2);
+    margin-inline: auto;
+  }
+
+  .inter-items {
+    width: 100%;
+    /* 第一張磚塊對齊容器左緣，右側維持出血 */
+    padding-left: var(--pad);
+    /* 手機/平板改成可觸控橫滑 */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .inter-items::-webkit-scrollbar { display: none; }
+
+  .inter-items-track { transform: none !important; }
+
+  .inter-item {
+    flex: 0 0 280px;
+    width: 280px;
+    height: 380px;
+    padding: 100px 32px;
+    scroll-snap-align: start;
+  }
+
+  .inter-nav { display: none; }
+
+  .news-inner { flex-direction: column; gap: 40px; }
+
+  .news-side { width: 100%; gap: 32px; }
+
+  .news-filter {
+    flex-direction: row;
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .news-filter::-webkit-scrollbar { display: none; }
+
+  .news-filter-line { display: none; }
+
+  .news-filter-label { font-size: 18px; }
+
+  .news-main { align-items: stretch; gap: 40px; }
+
+  .news-more { align-self: flex-end; }
+
+  /* 數據區放棄橢圓軌道，改成一次 1 顆的滑動輪播 */
+  .data-section { padding: 64px 0; }
+
+  .data-earth { display: none; }
+
+  .data-stage-wrap { height: auto; }
+
+  .data-stage {
+    --orb: 300px;
+    position: relative;
+    left: auto;
+    width: 100%;
+    height: var(--orb);
+    margin-left: 0;
+    transform: none;
+    touch-action: pan-y; /* 保留直向捲動，橫向手勢交給輪播 */
+  }
+
+  .data-orbit-line { display: none; }
+
+  /* 所有球疊在中央，一次只顯示一顆（JS 接手前也只露出第一顆） */
+  .data-orb {
+    top: 0;
+    left: 50%;
+    width: var(--orb);
+    height: var(--orb);
+    margin-left: calc(var(--orb) / -2);
+  }
+
+  .data-orb:not([data-slot="0"]) { opacity: 0; visibility: hidden; }
+
+  .data-slide-nav {
+    top: 50%;
+    margin-top: -33px;
+  }
+
+  .data-slide-prev { left: 0; }
+  .data-slide-next { left: auto; right: 0; }
+
+  .data-orb-text {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 20px;
+  }
+
+  .download-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+  }
+
+  .download-content { flex: 1 1 auto; max-width: none; }
+
+  .download-cover { width: 100%; height: auto; }
+
+  .download-cover img { height: auto; }
+
+  .footer-cols { flex-wrap: wrap; gap: 40px 32px; }
+  .footer-col { flex: 0 0 calc(50% - 16px); }
+  .footer-inner { gap: 56px; }
+  .footer-links { gap: 48px; }
+}
+
+/* ---------- 768 以下：單欄 ---------- */
+@media (max-width: 767px) {
+  :root { --pad: 20px; }
+
+  .header-inner { padding: 16px 20px; }
+
+  .logo { width: 150px; }
+  .logo img { height: 44px; }
+
+  .header-right { gap: 14px; }
+
+  .btn-download span:last-child { display: none; }
+  .btn-download { padding: 8px 12px; }
+
+  .main-nav,
+  .main-nav.is-open { padding-inline: 20px; }
+
+  .banner { height: 480px; }
+  .banner-txt { top: 110px; }
+
+  .banner-controls {
+    justify-content: center;
+    bottom: 40px;
+    gap: 16px;
+  }
+
+  .banner-nav span { display: none; }
+
+  .news-section { padding-top: 72px; }
+  .news-inner { padding: 0 0 64px; }
+
+  .news-item {
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 32px;
+  }
+
+  .news-item-thumb {
+    flex: none;
+    width: 100%;
+    height: 200px;
+  }
+
+  .news-item-body { gap: 16px; }
+  .news-item-meta { gap: 16px; }
+  .news-item-date { font-size: 18px; }
+  .news-item-cat { font-size: 16px; }
+
+  .news-item-title { font-size: 20px; line-height: 30px; }
+  .news-item-excerpt { font-size: 16px; line-height: 28px; }
+
+  .inter-item {
+    flex: 0 0 240px;
+    width: 240px;
+    height: 320px;
+    padding: 80px 24px;
+  }
+
+  .inter-item-title { font-size: 20px; }
+
+  .data-stage { --orb: 260px; }
+  .data-orb-text { width: 180px; }
+  .data-orb-esg { font-size: 30px; line-height: 30px; }
+  .data-value { line-height: 48px; }
+  .data-orb-label { font-size: 16px; line-height: 24px; white-space: normal; }
+
+  .download-section { padding: 56px 0; }
+  .download-card { padding: 32px 24px; gap: 32px; }
+  .download-content { gap: 32px; }
+  .download-actions { gap: 12px; }
+
+  .btn-pill { width: 100%; max-width: 200px; }
+
+  .footer-inner { gap: 40px; padding: 40px 0; }
+  .footer-top { gap: 40px; }
+  .footer-col { flex: 0 0 100%; }
+  .footer-cols { gap: 32px; }
+  .footer-flat { gap: 16px 24px; padding-top: 32px; }
+  .footer-flat a { font-size: 16px; }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 15px;
+  }
+
+  .footer-policy { gap: 24px; }
+  .footer-contact p { font-size: 16px; white-space: normal; }
+}
+
+/* ---------- 576 以下 ---------- */
+@media (max-width: 575px) {
+  :root { --pad: 16px; }
+
+  .header-inner { padding: 14px 16px; }
+
+  .banner { height: 420px; }
+  .banner-txt { top: 96px; }
+
+  .inter-section { padding: 64px 0; }
+
+  .data-stage { --orb: 230px; }
+  .data-orb-text { width: 160px; gap: 14px; }
+
+  /* 390 寬時球兩側只剩約 64px，箭頭縮小才不會壓到球 */
+  .data-slide-nav { transform: scale(.72); }
+  .data-orb-body { gap: 14px; }
+  .data-orb-esg { font-size: 26px; line-height: 26px; }
+  .data-value { line-height: 42px; }
+}
+
+
+/* ==========================================================
+
+  捲動場景模式（桌機 ≥992 且未開啟「減少動態」）
+  由 js/animations.js 在 <html> 加上 .is-story 才生效；
+  手機或關掉 JS 時，以上的一般版型完全不受影響
+
+========================================================== */
+
+/* 共用固定背景（藍、遮罩、綠）：從最新消息一路固定到場景結束 */
+.scene-backdrop { display: none; }
+
+.is-story .scene-backdrop {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 各區塊自己的背景在場景模式隱藏，改透出共用背景 */
+.is-story .news-section .news-backdrop,
+.is-story .story .data-bg { display: none; }
+
+/* 永續經營＋報告書下載疊成同一個 100vh 畫面，由 ScrollTrigger pin 住 */
+.is-story .story {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 場景內圖層由下而上：海浪 2 → 地球與數據 3 → 白卡 5（綠色在後方共用背景） */
+.is-story .data-section,
+.is-story .download-section {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  overflow: visible;
+  background: none;
+}
+
+.is-story .data-bg     { z-index: 1; }
+.is-story .download-bg { z-index: 2; }
+.is-story .download-card { z-index: 5; }
+
+/* 1920×881 設計畫框，底部貼齊視窗底，整框等比縮放（--story-scale 由 JS 依視窗寬高計算） */
+.is-story .data-frame {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 3;
+  width: 1920px;
+  height: 881px;
+  margin-left: -960px;
+  transform: scale(var(--story-scale, 1));
+  transform-origin: 50% 100%;
+}
+
+/* 地球改成整顆（963×963），設計稿位置不變；超出視窗的下半部由 .story 裁掉 */
+.is-story .data-earth {
+  top: 460px;
+  left: 484px;
+  width: 963px;
+  height: 963px;
+  margin-left: 0;
+  overflow: visible;
+}
+
+.is-story .data-earth img { height: 100%; }
+
+.is-story .data-inner {
+  position: absolute;
+  top: 42px;
+  left: 191px;
+  width: 1538px;
+  margin: 0;
+}
+
+/* 畫框已整體縮放，舞台不再各自縮放 */
+.is-story .data-stage-wrap { height: 679.277px; }
+.is-story .data-stage { transform: none; }

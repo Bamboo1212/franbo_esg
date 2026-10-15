@@ -1,0 +1,88 @@
+/* ==========================================================
+
+==base
+
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap');
+
+/* ==========================================================
+==base
+========================================================== */
+html {
+  scroll-behavior: auto;
+}
+
+:root {
+  --fs-normal: 16px;
+
+  /* Figma variables */
+  --black: #333333;
+  --white: #ffffff;
+  --theme: #05548D;
+  --orange: #E95504;
+  --deep-blue: #051B35;
+  --gray: #EDF2F5;
+
+  /* 版面：設計稿 1920 寬，內容 1440 置中（左右各 240） */
+  --container: 1440px;
+  --gutter: 240px;
+}
+
+body {
+  word-break: break-word;
+  letter-spacing: 1px;
+  line-height: 1.75;
+  font-weight: 400;
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--black);
+  font-size: var(--fs-normal);
+  background: var(--white);
+}
+
+a {
+  color: var(--black);
+  text-decoration: none;
+  transition: .3s ease;
+}
+
+a:hover {
+  color: var(--theme);
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+small {
+  line-height: 1.3;
+}
+
+.one-row { 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.two-row { 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.three-row { 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
