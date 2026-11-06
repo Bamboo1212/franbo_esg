@@ -1,6 +1,7 @@
 /* ==========================================================
 
 ==base
+==header
 
 ========================================================== */
 
@@ -14,19 +15,43 @@ html {
 }
 
 :root {
-  --fs-normal: 16px;
+  --fs-normal: 18px;
+  --fs-headerNav: 20px;
+  --fs-bannerTitle: 52px;
+  --fs-bannerTxt: 32px;
+  --fs-sectionTitle: 42px;
+  --fs-sectionTitleEn: 24px;
+  --fs-itemTitle: 24px;
+  --fs-cate: 22px;
+  --fs-footerTitle: 20px;
+  --fs-bannerh1: 52px;
+  --fs-h5Title: 20px;
+  --fs-h3Title: 36px;
+  --fs-h4Title: 28px;
 
-  /* Figma variables */
-  --black: #333333;
+  --sec-padding: 80px;
+  --sec-padding2: 60px;
+
   --white: #ffffff;
+  --black: #333333;
   --theme: #05548D;
   --orange: #E95504;
   --deep-blue: #051B35;
+  --txt-gray: #777777;
   --gray: #EDF2F5;
+  --green: #8EC76C;
+  --light-green: #EBF5E8;
+  --soft-orange-dark: #E18A57;
+  --soft-orange: #ED9B4A;
+  --light-orange: #FEEDD7;
+  --teal-dark: #198585;
+  --teal: #36ADAD;
+  --light-teal: #D7EFF3;
+  --light-blue: #D5E8F3;
+  --soft-blue: #BCD8EB;
 
-  /* 版面：設計稿 1920 寬，內容 1440 置中（左右各 240） */
-  --container: 1440px;
-  --gutter: 240px;
+  --font-en: "Jost", sans-serif;
+  --font-num: "Amiri", serif;
 }
 
 body {
@@ -37,7 +62,7 @@ body {
   font-family: 'Noto Sans TC', sans-serif;
   color: var(--black);
   font-size: var(--fs-normal);
-  background: var(--white);
+  background:var(--white);
 }
 
 a {
@@ -52,14 +77,17 @@ a:hover {
 
 button {
   cursor: pointer;
+  outline: 0;
+  transition: .3s ease;
 }
 
 img {
+  display: block;
   max-width: 100%;
 }
 
-small {
-  line-height: 1.3;
+input {
+  outline: 0;
 }
 
 .one-row { 
@@ -85,4 +113,8 @@ small {
 
 p:last-child {
   margin-bottom: 0;
+}
+
+.text-justify {
+  text-align: justify;
 }
