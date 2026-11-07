@@ -9020,6 +9020,65 @@ html:has(.status-page) body {
   .main-download {
     padding: 24px;
   }
+
+  /* ========== doc-table：一列改成一張卡，欄名（td 的 data-label）在左、內容在右 ==========
+     內容短時靠右；太長折行時從欄名後方靠左排 */
+  .doc-table {
+    min-width: 0;
+    text-align: left;
+  }
+
+  /* 表頭只留給螢幕閱讀器 */
+  .doc-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .doc-table tbody,
+  .doc-table tr,
+  .doc-table td {
+    display: block;
+  }
+
+  .doc-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .doc-table tbody tr:nth-child(odd),
+  .doc-table tbody tr:nth-child(even) {
+    border: 1px solid #DCDCDC;
+    background-color: var(--white);
+  }
+
+  .doc-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+
+  .doc-table td:nth-child(odd) {
+    background-color: #EEEEEE;
+  }
+
+  .doc-table td:nth-child(2) {
+    white-space: normal;
+  }
+
+  .doc-table td::before {
+    content: attr(data-label);
+    flex: none;
+    min-width: 4.5em;
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 575px) {
