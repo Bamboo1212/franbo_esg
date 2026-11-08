@@ -7890,6 +7890,12 @@ html:has(.status-page) body {
     visibility: visible;
   }
 
+  /* 已捲到底的那一側箭頭變淡、不可點（同內頁 tab 的 .news-tab-arrow.swiper-button-disabled） */
+  .news-cate-wrap.is-overflow .news-cate-arrow:disabled {
+    opacity: .3;
+    cursor: default;
+  }
+
   /* ========== data ========== */
   .data-item {
     width: 240px;
@@ -8860,6 +8866,19 @@ html:has(.status-page) body {
     width: 96px;
   }
 
+  /* 溫室氣體排放（environment_4）只有兩欄，不需橫向捲動：數值欄只留放得下數字的寬度，其餘給項目欄 */
+  .perf-table.ghg-table {
+    min-width: 0;
+  }
+
+  .perf-table.ghg-table thead th:first-child {
+    width: auto;
+  }
+
+  .perf-table.ghg-table thead th:last-child {
+    width: 136px;
+  }
+
   .perf-table.training-table thead th:first-child,
   .perf-table.director-table thead th:first-child,
   .perf-table.risk-table thead th:first-child,
@@ -8948,6 +8967,7 @@ html:has(.status-page) body {
   .duty-box {
     padding: 24px;
     gap: 32px;
+    margin-bottom: 24px;
   }
 
   .duty-list {
@@ -9078,6 +9098,10 @@ html:has(.status-page) body {
     flex: none;
     min-width: 4.5em;
     font-weight: 700;
+  }
+
+  .exec-head {
+    margin: 0 auto 24px;
   }
 }
 

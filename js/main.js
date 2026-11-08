@@ -617,8 +617,15 @@
   const el = document.querySelector('.inter-swiper');
   if (!el || typeof Swiper === 'undefined') return;
 
+  const INTER_DELAY = 6000; // 自動輪播每張停留時間（ms）
+
   new Swiper(el, {
     loop: true, // 至少需 5 張（一次顯示 3.5 張 → 4 + 每次移動 1 張）
+    autoplay: {
+      delay: INTER_DELAY,
+      disableOnInteraction: false, // 點 prev / next 或拖曳後繼續自動播放（同 hero）
+      pauseOnMouseEnter: true // 滑鼠移到卡片上暫停，避免 hover 中的卡片被輪播移走
+    },
     // 預設為 575px 含以下
     slidesPerView: 1.8,
     spaceBetween: 24,
@@ -657,11 +664,17 @@
   const nextBtn = wrap.querySelector('.news-cate-next');
 
   // 選單超出可顯示範圍時，左右箭頭同時出現（直向排列時沒有超出，箭頭不會出現）
+  // 同內頁 tab：捲到最左邊時左箭頭停用、最右邊時右箭頭停用（樣式見 style.css .news-cate-arrow:disabled）
   function updateArrows() {
-    wrap.classList.toggle('is-overflow', list.scrollWidth > list.clientWidth + 1);
+    const max = list.scrollWidth - list.clientWidth;
+    wrap.classList.toggle('is-overflow', max > 1);
+    prevBtn.disabled = list.scrollLeft <= 1;
+    nextBtn.disabled = list.scrollLeft >= max - 1;
   }
 
+  list.addEventListener('scroll', updateArrows, { passive: true });
   window.addEventListener('resize', updateArrows);
+  window.addEventListener('load', updateArrows); // 字型載入後選單寬度可能改變
   updateArrows();
 
   // 點箭頭捲動約半個可視寬度
