@@ -353,17 +353,18 @@
           <!-- 開始頁 -->
           <div data-quiz-screen="start">
             <div class="quiz-cover">
-              <h2 class="quiz-cover-title" id="quizTitle">問答互動</h2>
+              <h2 class="quiz-cover-title" id="quizTitle">正德 ESG 探索之旅</h2>
             </div>
             <div class="quiz-start">
-              <h3 class="quiz-start-title">準備啟航</h3>
+              <h3 class="quiz-start-title">你想從哪個故事，認識永續航運？</h3>
               <div class="des quiz-des">
-                <p>你對航運、船舶與國際貿易有多了解呢？<br>透過問答小遊戲，幫助你了解更多海運相關問題</p>
+                <p>6 題皆為單選，無須先懂 ESG，也不需要找標準答案。<br>每題選出最讓你好奇的一項，看看你目前最想探索的永續方向。</p>
+                <p class="quiz-note">這份活動問卷呈現本次閱讀偏好，不作為人格或能力評分。</p>
               </div>
               <button type="button" class="btn-base border-0" data-quiz-start>
                 <span class="btn-base-txt">
-                  <span>開始問答</span>
-                  <span aria-hidden="true">開始問答</span>
+                  <span>開始探索</span>
+                  <span aria-hidden="true">開始探索</span>
                 </span>
                 <span class="btn-base-arrow" aria-hidden="true">
                   <svg viewBox="0 0 28 14" width="28" height="14"><path d="M17.3223 0C18.081 1.97238 21.2987 6.14844 28 6.14844V7.50195C21.299 7.50195 18.0811 11.6769 17.3223 13.6494L16.0625 13.165C16.6731 11.5779 18.4674 9.04821 21.709 7.5H0V6.14941H21.707C18.4664 4.60108 16.6729 2.07123 16.0625 0.484375L17.3223 0Z"/></svg>
@@ -377,8 +378,7 @@
           <div data-quiz-screen="question" hidden>
             <div class="quiz-bar">
               <div class="quiz-bar-top">
-                <h2 class="quiz-bar-title">問答互動</h2>
-                <p class="quiz-score">答對<b class="font-en">0</b>題</p>
+                <h2 class="quiz-bar-title">正德 ESG 探索之旅</h2>
               </div>
               <div class="quiz-route">
                 <div class="quiz-route-line">
@@ -392,80 +392,149 @@
             <div class="quiz-question">
               <div class="quiz-no font-en">
                 <span class="quiz-no-now">01</span>
-                <span class="quiz-no-total">/ 03</span>
+                <span class="quiz-no-total">/ 06</span>
               </div>
-              <!-- 題目：data-answer 為正確選項的順序（從 0 開始），data-explain 為答錯時顯示的解說；題數由 JS 自動計算 -->
-              <div class="quiz-item" data-answer="0" data-explain="TEU（Twenty-foot Equivalent Unit）以一個 20 呎貨櫃作為計算單位。">
-                <h3 class="quiz-q-title">貨櫃運輸常用的單位「TEU」指的是什麼？</h3>
+              <!-- 題目：選項 data-type 為計分面向（E／S／G 該面向 3 分，B 平衡為三面向各 1 分），data-topic 對應結果頁的 data-quiz-topic -->
+              <div class="quiz-item">
+                <p class="quiz-q-cate">日常生活與航運</p>
+                <h3 class="quiz-q-title" tabindex="-1">每天收到的商品可能走過海上航程。你最想了解這趟旅程的哪一面？</h3>
                 <div class="quiz-options">
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="energy">
                     <span class="quiz-opt-door"><b class="font-en">A</b></span>
-                    <span class="quiz-opt-txt">20 呎標準貨櫃</span>
+                    <span class="quiz-opt-txt">船舶怎麼減少能源消耗，讓運送過程更節能？</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="risk">
                     <span class="quiz-opt-door"><b class="font-en">B</b></span>
-                    <span class="quiz-opt-txt">40 呎標準貨櫃</span>
+                    <span class="quiz-opt-txt">遇到天候或營運變化時，公司怎麼事先準備？</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="workplace">
                     <span class="quiz-opt-door"><b class="font-en">C</b></span>
-                    <span class="quiz-opt-txt">45 呎高櫃</span>
+                    <span class="quiz-opt-txt">讓船岸夥伴安心工作的支持，背後有哪些安排？</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="sustain">
                     <span class="quiz-opt-door"><b class="font-en">D</b></span>
-                    <span class="quiz-opt-txt">每噸運費單位</span>
+                    <span class="quiz-opt-txt">想先看一趟航程如何同時照顧海洋、夥伴與營運。</span>
                   </button>
                 </div>
               </div>
-              <div class="quiz-item" data-answer="2" data-explain="40 呎貨櫃長度約為 20 呎的兩倍，因此算作 2 TEU（也常稱為 1 FEU）。" hidden>
-                <h3 class="quiz-q-title">一個 40 呎貨櫃等於幾個 TEU？</h3>
+              <div class="quiz-item" hidden>
+                <p class="quiz-q-cate">航程的幕後日常</p>
+                <h3 class="quiz-q-title" tabindex="-1">一艘船在海上生活好幾週，哪個幕後細節最讓你好奇？</h3>
                 <div class="quiz-options">
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="governance">
                     <span class="quiz-opt-door"><b class="font-en">A</b></span>
-                    <span class="quiz-opt-txt">1 TEU</span>
+                    <span class="quiz-opt-txt">誰負責重要決策，又如何追蹤執行成果？</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="safety">
                     <span class="quiz-opt-door"><b class="font-en">B</b></span>
-                    <span class="quiz-opt-txt">1.5 TEU</span>
+                    <span class="quiz-opt-txt">船員如何保持健康，並安全完成每天的工作？</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="sustain">
                     <span class="quiz-opt-door"><b class="font-en">C</b></span>
-                    <span class="quiz-opt-txt">2 TEU</span>
+                    <span class="quiz-opt-txt">想從整趟航程，了解環境、人員與管理如何配合。</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="waste">
                     <span class="quiz-opt-door"><b class="font-en">D</b></span>
-                    <span class="quiz-opt-txt">4 TEU</span>
+                    <span class="quiz-opt-txt">船上用過的水與廢棄物，後來會怎麼處理？</span>
                   </button>
                 </div>
               </div>
-              <div class="quiz-item" data-answer="1" data-explain="B/L 即 Bill of Lading，是運送人簽發的貨物收據、運送契約證明及物權憑證。" hidden>
-                <h3 class="quiz-q-title">海運中的「提單」英文縮寫是？</h3>
+              <div class="quiz-item" hidden>
+                <p class="quiz-q-cate">體驗與參與</p>
+                <h3 class="quiz-q-title" tabindex="-1">如果參與正德的一日永續體驗，你最想加入哪一站？</h3>
                 <div class="quiz-options">
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="community">
                     <span class="quiz-opt-door"><b class="font-en">A</b></span>
-                    <span class="quiz-opt-txt">P/O</span>
+                    <span class="quiz-opt-txt">走進社區，看看企業如何回應人們的需要。</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="sustain">
                     <span class="quiz-opt-door"><b class="font-en">B</b></span>
-                    <span class="quiz-opt-txt">B/L</span>
+                    <span class="quiz-opt-txt">參加整體導覽，認識海洋、職場與經營背後的故事。</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="biodiversity">
                     <span class="quiz-opt-door"><b class="font-en">C</b></span>
-                    <span class="quiz-opt-txt">L/C</span>
+                    <span class="quiz-opt-txt">認識海洋生物，了解航運與牠們的生活有什麼關係。</span>
                   </button>
-                  <button type="button" class="quiz-opt">
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="integrity">
                     <span class="quiz-opt-door"><b class="font-en">D</b></span>
-                    <span class="quiz-opt-txt">D/O</span>
+                    <span class="quiz-opt-txt">參與情境討論，了解遇到不當利益時該如何處理。</span>
+                  </button>
+                </div>
+              </div>
+              <div class="quiz-item" hidden>
+                <p class="quiz-q-cate">合作夥伴的選擇</p>
+                <h3 class="quiz-q-title" tabindex="-1">如果替一趟航程選合作夥伴，你最想先問對方什麼？</h3>
+                <div class="quiz-options">
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="policy">
+                    <span class="quiz-opt-door"><b class="font-en">A</b></span>
+                    <span class="quiz-opt-txt">能否用一個合作案例，說明環境、員工與管理如何配合？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="emission">
+                    <span class="quiz-opt-door"><b class="font-en">B</b></span>
+                    <span class="quiz-opt-txt">如何減少廢氣排放，降低作業對環境的影響？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="supply">
+                    <span class="quiz-opt-door"><b class="font-en">C</b></span>
+                    <span class="quiz-opt-txt">如何管理合作風險，讓供應與服務保持可靠？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="labor">
+                    <span class="quiz-opt-door"><b class="font-en">D</b></span>
+                    <span class="quiz-opt-txt">如何聽見員工的聲音，回應工作上的需求？</span>
+                  </button>
+                </div>
+              </div>
+              <div class="quiz-item" hidden>
+                <p class="quiz-q-cate">對企業的信任</p>
+                <h3 class="quiz-q-title" tabindex="-1">想知道一家海運公司是否值得信任，你會先追問哪一件事？</h3>
+                <div class="quiz-options">
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="protection">
+                    <span class="quiz-opt-door"><b class="font-en">A</b></span>
+                    <span class="quiz-opt-txt">環境保護的承諾，如何落實在日常作業與法規遵循？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="workplace">
+                    <span class="quiz-opt-door"><b class="font-en">B</b></span>
+                    <span class="quiz-opt-txt">不同背景的夥伴，是否都能獲得尊重與公平對待？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="customer">
+                    <span class="quiz-opt-door"><b class="font-en">C</b></span>
+                    <span class="quiz-opt-txt">客戶提出需求或問題後，公司如何回應並改善服務？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="report">
+                    <span class="quiz-opt-door"><b class="font-en">D</b></span>
+                    <span class="quiz-opt-txt">如何從公開報告，看懂環境、社會與治理的整體進展？</span>
+                  </button>
+                </div>
+              </div>
+              <div class="quiz-item" hidden>
+                <p class="quiz-q-cate">下一步閱讀</p>
+                <h3 class="quiz-q-title" tabindex="-1">逛完正德 ESG 網站前，你最想帶走哪一個問題的答案？</h3>
+                <div class="quiz-options">
+                  <button type="button" class="quiz-opt" data-type="G" data-topic="integrity">
+                    <span class="quiz-opt-door"><b class="font-en">A</b></span>
+                    <span class="quiz-opt-txt">誠信與透明的經營方式，如何成為每天的決策習慣？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="B" data-topic="policy">
+                    <span class="quiz-opt-door"><b class="font-en">B</b></span>
+                    <span class="quiz-opt-txt">企業訂下的永續方向，如何連結不同主題的行動？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="S" data-topic="community">
+                    <span class="quiz-opt-door"><b class="font-en">C</b></span>
+                    <span class="quiz-opt-txt">職場與社區裡，哪些照顧能讓人感受到實際改變？</span>
+                  </button>
+                  <button type="button" class="quiz-opt" data-type="E" data-topic="water">
+                    <span class="quiz-opt-door"><b class="font-en">D</b></span>
+                    <span class="quiz-opt-txt">航運如何用好每一份水資源，減少對環境的負擔？</span>
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 完成頁 -->
+          <!-- 結果頁 -->
           <div data-quiz-screen="result" hidden>
             <div class="quiz-bar is-arrived">
               <div class="quiz-bar-top">
-                <h2 class="quiz-bar-title">問答互動</h2>
+                <h2 class="quiz-bar-title">正德 ESG 探索之旅</h2>
               </div>
               <div class="quiz-route">
                 <div class="quiz-route-line">
@@ -477,25 +546,177 @@
               </div>
             </div>
             <div class="quiz-start quiz-result">
-              <h3 class="quiz-start-title">抵達目的地</h3>
-              <div class="quiz-result-body">
-                <div class="quiz-ring">
-                  <svg viewBox="0 0 200 200" aria-hidden="true">
-                    <circle class="quiz-ring-track" cx="100" cy="100" r="86"/>
-                    <circle class="quiz-ring-bar" cx="100" cy="100" r="86" pathLength="100"/>
-                  </svg>
-                  <div class="quiz-ring-val">
-                    <span class="quiz-ring-num font-en"><b data-quiz-rate>0</b>%</span>
-                    <span class="quiz-ring-label">正確率</span>
-                  </div>
-                </div>
-                <ul class="quiz-stats list-unstyled">
-                  <li><span class="quiz-stat-label">總題數</span><span class="quiz-stat-num"><b class="font-en" data-quiz-total>0</b>題</span></li>
-                  <li class="is-right"><span class="quiz-stat-label">答對</span><span class="quiz-stat-num"><b class="font-en" data-quiz-right>0</b>題</span></li>
-                  <li class="is-wrong"><span class="quiz-stat-label">答錯</span><span class="quiz-stat-num"><b class="font-en" data-quiz-miss>0</b>題</span></li>
-                </ul>
+              <!-- 類型：data-default 為推薦主題（對應 data-quiz-topic），結果頁會把選過的排到前面 -->
+              <div class="quiz-type is-env" data-quiz-type="E" data-default="energy,biodiversity,water" hidden>
+                <span class="quiz-type-badge font-en" aria-hidden="true">E</span>
+                <h3 class="quiz-type-title" tabindex="-1"><span>E 型</span>海洋守護者</h3>
+                <p class="quiz-type-txt">你的選擇顯示，你想了解航運與環境的關係。從減少能源消耗到海洋生態，你對每一趟航程如何減輕環境負擔，抱有好奇。</p>
               </div>
-              <p class="quiz-result-txt">感謝您的參與，歡迎繼續了解正德海運的永續行動。</p>
+              <div class="quiz-type is-soc" data-quiz-type="S" data-default="workplace,safety,community" hidden>
+                <span class="quiz-type-badge font-en" aria-hidden="true">S</span>
+                <h3 class="quiz-type-title" tabindex="-1"><span>S 型</span>夥伴同行者</h3>
+                <p class="quiz-type-txt">你的選擇顯示，你想了解航程背後的人。從船岸夥伴的工作日常到社區參與，你好奇企業如何讓安全、尊重與照顧成為具體行動。</p>
+              </div>
+              <div class="quiz-type is-gov" data-quiz-type="G" data-default="integrity,risk,supply" hidden>
+                <span class="quiz-type-badge font-en" aria-hidden="true">G</span>
+                <h3 class="quiz-type-title" tabindex="-1"><span>G 型</span>信任領航者</h3>
+                <p class="quiz-type-txt">你的選擇顯示，你想了解可靠經營的幕後安排。從重要決策到合作夥伴，你好奇企業如何管理風險，讓誠信與責任落實在每天的選擇。</p>
+              </div>
+              <div class="quiz-type is-all" data-quiz-type="B" data-default="sustain,policy,report" hidden>
+                <span class="quiz-type-badge font-en" aria-hidden="true">ESG</span>
+                <h3 class="quiz-type-title" tabindex="-1"><span>平均型</span>永續全航者</h3>
+                <p class="quiz-type-txt">你的選擇涵蓋多種永續故事，尚未呈現明確單一偏向。你可以先看正德的永續方向，再從海洋、職場或治理之中，選一個最想深入的主題。</p>
+              </div>
+              <ul class="quiz-scores list-unstyled">
+                <li class="quiz-score is-env" data-quiz-score="E">
+                  <span class="quiz-score-label"><b class="font-en">E</b>綠色海洋</span>
+                  <span class="quiz-score-track"><span class="quiz-score-bar"></span></span>
+                  <span class="quiz-score-num"><b class="font-en">0</b>分</span>
+                </li>
+                <li class="quiz-score is-soc" data-quiz-score="S">
+                  <span class="quiz-score-label"><b class="font-en">S</b>幸福社會</span>
+                  <span class="quiz-score-track"><span class="quiz-score-bar"></span></span>
+                  <span class="quiz-score-num"><b class="font-en">0</b>分</span>
+                </li>
+                <li class="quiz-score is-gov" data-quiz-score="G">
+                  <span class="quiz-score-label"><b class="font-en">G</b>永續治理</span>
+                  <span class="quiz-score-track"><span class="quiz-score-bar"></span></span>
+                  <span class="quiz-score-num"><b class="font-en">0</b>分</span>
+                </li>
+              </ul>
+              <h4 class="quiz-topics-title">推薦閱讀</h4>
+              <!-- 推薦主題：全部列出，只顯示該類型 data-default 的主題；說明文字由 JS 帶入選項內容 -->
+              <div class="quiz-topics">
+                <a href="environment_2.html#energyEfficiency" class="quiz-topic is-env" data-quiz-topic="energy" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">能源管理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="environment_1.html" class="quiz-topic is-env" data-quiz-topic="biodiversity" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">生物多樣性</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="environment_3.html" class="quiz-topic is-env" data-quiz-topic="water" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">水資源管理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="environment_5.html#sewage" class="quiz-topic is-env" data-quiz-topic="waste" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">環境污染管理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="environment_4.html" class="quiz-topic is-env" data-quiz-topic="emission" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">溫室氣體</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="environment_6.html" class="quiz-topic is-env" data-quiz-topic="protection" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">環境保護</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="social_2.html" class="quiz-topic is-soc" data-quiz-topic="workplace" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">友善職場</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="social_3.html" class="quiz-topic is-soc" data-quiz-topic="safety" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">健康安全職場</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="social_5.html" class="quiz-topic is-soc" data-quiz-topic="community" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">社會參與</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="social_1.html" class="quiz-topic is-soc" data-quiz-topic="labor" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">勞雇關係</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_list.html" class="quiz-topic is-gov" data-quiz-topic="integrity" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">誠信經營</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_2.html" class="quiz-topic is-gov" data-quiz-topic="risk" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">風險控管</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_4.html" class="quiz-topic is-gov" data-quiz-topic="supply" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">供應鏈管理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_list.html" class="quiz-topic is-gov" data-quiz-topic="governance" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">領航公司治理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_3.html" class="quiz-topic is-gov" data-quiz-topic="customer" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">客戶服務管理</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="governance_list.html" class="quiz-topic is-all" data-quiz-topic="sustain" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">永續經營</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="report_3.html" class="quiz-topic is-all" data-quiz-topic="policy" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">永續政策及發展</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+                <a href="download.html" class="quiz-topic is-all" data-quiz-topic="report" hidden>
+                  <span class="quiz-topic-label"></span>
+                  <span class="quiz-topic-title">報告書下載</span>
+                  <span class="quiz-topic-txt"></span>
+                  <span class="quiz-topic-more">閱讀更多<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                </a>
+              </div>
+              <!-- 閱讀入口 -->
+              <div class="quiz-entry" data-quiz-entry="E" hidden>
+                <span class="quiz-entry-label">閱讀入口</span>
+                <a href="environment_list.html" class="quiz-entry-link is-env">綠色海洋<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+              </div>
+              <div class="quiz-entry" data-quiz-entry="S" hidden>
+                <span class="quiz-entry-label">閱讀入口</span>
+                <a href="social_list.html" class="quiz-entry-link is-soc">幸福社會<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+              </div>
+              <div class="quiz-entry" data-quiz-entry="G" hidden>
+                <span class="quiz-entry-label">閱讀入口</span>
+                <a href="governance_list.html" class="quiz-entry-link is-gov">永續治理<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+              </div>
+              <div class="quiz-entry" data-quiz-entry="B" hidden>
+                <span class="quiz-entry-label">閱讀入口</span>
+                <a href="report_list.html" class="quiz-entry-link is-all">永續藍圖<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+                <a href="environment_list.html" class="quiz-entry-link is-env">綠色海洋<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+                <a href="social_list.html" class="quiz-entry-link is-soc">幸福社會<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+                <a href="governance_list.html" class="quiz-entry-link is-gov">永續治理<i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+              </div>
+              <p class="quiz-note">結果僅反映本次選擇；某面向 0 分，代表本次未優先選擇該主題。</p>
               <div class="quiz-result-btns">
                 <button type="button" class="btn-base border-0" data-quiz-restart>
                   <span class="btn-base-txt">
@@ -514,29 +735,6 @@
                   </span>
                 </button>
               </div>
-            </div>
-          </div>
-
-          <!-- 答錯視窗 -->
-          <div class="quiz-wrong">
-            <div class="quiz-wrong-box">
-              <span class="quiz-wrong-icon"><i class="bi bi-exclamation-lg" aria-hidden="true"></i></span>
-              <h3 class="quiz-wrong-title">答錯了</h3>
-              <div class="quiz-ans">
-                <span class="quiz-ans-label">正確答案</span>
-                <p class="quiz-ans-txt"></p>
-              </div>
-              <p class="quiz-explain"></p>
-              <button type="button" class="btn-base border-0 mx-auto" data-quiz-next>
-                <span class="btn-base-txt">
-                  <span>下一題</span>
-                  <span aria-hidden="true">下一題</span>
-                </span>
-                <span class="btn-base-arrow" aria-hidden="true">
-                  <svg viewBox="0 0 28 14" width="28" height="14"><path d="M17.3223 0C18.081 1.97238 21.2987 6.14844 28 6.14844V7.50195C21.299 7.50195 18.0811 11.6769 17.3223 13.6494L16.0625 13.165C16.6731 11.5779 18.4674 9.04821 21.709 7.5H0V6.14941H21.707C18.4664 4.60108 16.6729 2.07123 16.0625 0.484375L17.3223 0Z"/></svg>
-                  <svg viewBox="0 0 28 14" width="28" height="14"><path d="M17.3223 0C18.081 1.97238 21.2987 6.14844 28 6.14844V7.50195C21.299 7.50195 18.0811 11.6769 17.3223 13.6494L16.0625 13.165C16.6731 11.5779 18.4674 9.04821 21.709 7.5H0V6.14941H21.707C18.4664 4.60108 16.6729 2.07123 16.0625 0.484375L17.3223 0Z"/></svg>
-                </span>
-              </button>
             </div>
           </div>
 

@@ -964,33 +964,34 @@ if (typeof Fancybox !== 'undefined') {
   });
 })();
 
-/* ========== 問答互動彈窗：開始頁 → 逐題作答 → 完成頁；答對標示後自動換題，答錯顯示正確答案與解說，按鈕後換題
-   題目為 .quiz-item（data-answer 正確選項順序、data-explain 解說），題數、進度自動計算；關閉彈窗後重置 ========== */
+/* ========== 問答互動彈窗：開始頁 → 逐題作答（選完自動換題）→ 結果頁；無標準答案，依選項累計 E／S／G 分數歸類
+   選項 data-type 為計分面向、data-topic 為閱讀主題，題數、進度、分數、推薦主題自動計算；關閉彈窗後重置 ========== */
 (function () {
   const modal = document.getElementById('quizModal');
   if (!modal) return;
 
-  const LETTERS = ['A', 'B', 'C', 'D'];
-  const CORRECT_DELAY = 1000; // 答對後停留多久才換題
-  const WRONG_DELAY = 450; // 答錯後等選項搖晃完再開視窗
-  const FINISH_DELAY = 700; // 小船抵達目的港後停留多久才到完成頁
+  const SCORE = { // 各面向選項的計分，B 為平衡
+    E: { E: 3, S: 0, G: 0 },
+    S: { E: 0, S: 3, G: 0 },
+    G: { E: 0, S: 0, G: 3 },
+    B: { E: 1, S: 1, G: 1 }
+  };
+  const LEAD = 6; // 最高分領先次高分幾分以上才歸入單一類型，否則為平均型
+  const NEXT_DELAY = 600; // 選完後停留多久才換題
+  const FINISH_DELAY = 700; // 小船抵達目的港後停留多久才到結果頁
 
   const screens = modal.querySelectorAll('[data-quiz-screen]');
   const items = modal.querySelectorAll('.quiz-item');
   const total = items.length;
-  const scoreEl = modal.querySelector('.quiz-score b');
   const nowEl = modal.querySelector('.quiz-no-now');
   const totalEl = modal.querySelector('.quiz-no-total');
   const ship = modal.querySelector('.quiz-route-ship');
   const done = modal.querySelector('.quiz-route-done');
-  const wrong = modal.querySelector('.quiz-wrong');
-  const ansEl = modal.querySelector('.quiz-ans-txt');
-  const explainEl = modal.querySelector('.quiz-explain');
-  const nextBtn = modal.querySelector('[data-quiz-next]');
-  const ring = modal.querySelector('.quiz-ring-bar');
+  const topicWrap = modal.querySelector('.quiz-topics');
+  const topics = modal.querySelectorAll('[data-quiz-topic]');
 
   let index = 0;
-  let score = 0;
+  let picks = []; // 每題選的選項按鈕，依題號排列
   let timers = [];
 
   function pad(n) {
@@ -1005,6 +1006,7 @@ if (typeof Fancybox !== 'undefined') {
     screens.forEach(function (screen) {
       screen.hidden = screen.dataset.quizScreen !== name;
     });
+    modal.scrollTop = 0;
   }
 
   function moveShip(step) {
@@ -1013,14 +1015,9 @@ if (typeof Fancybox !== 'undefined') {
     done.style.width = percent;
   }
 
-  // 櫃門的字母換成圖示（字母由 CSS 隱藏），文字說明留給螢幕閱讀器
-  function mark(btn, className, icon, text) {
-    const label = document.createElement('i');
-    label.className = 'quiz-opt-mark bi ' + icon;
-    label.setAttribute('role', 'img');
-    label.setAttribute('aria-label', text);
-    btn.classList.add(className);
-    btn.querySelector('.quiz-opt-door').appendChild(label);
+  // 換題後焦點移到標題，螢幕閱讀器才會接著唸
+  function focusTitle(el) {
+    el.focus({ preventScroll: true });
   }
 
   function render() {
@@ -1036,80 +1033,133 @@ if (typeof Fancybox !== 'undefined') {
     index++;
     if (index < total) {
       render();
+      focusTitle(items[index].querySelector('.quiz-q-title'));
     } else {
       moveShip(total);
       later(finish, FINISH_DELAY);
     }
   }
 
-  function finish() {
-    const rate = Math.round(score / total * 100);
+  function getScores() {
+    const scores = { E: 0, S: 0, G: 0 };
+    picks.forEach(function (opt) {
+      Object.keys(scores).forEach(function (key) {
+        scores[key] += SCORE[opt.dataset.type][key];
+      });
+    });
+    return scores;
+  }
 
-    modal.querySelector('[data-quiz-rate]').textContent = rate;
-    modal.querySelector('[data-quiz-total]').textContent = total;
-    modal.querySelector('[data-quiz-right]').textContent = score;
-    modal.querySelector('[data-quiz-miss]').textContent = total - score;
+  function getType(scores) {
+    const rank = Object.keys(scores).sort(function (a, b) {
+      return scores[b] - scores[a];
+    });
+    return scores[rank[0]] - scores[rank[1]] >= LEAD ? rank[0] : 'B';
+  }
 
-    // 環狀圖先歸零再長到正確率
-    ring.style.transition = 'none';
-    ring.style.strokeDashoffset = 100;
-    show('result');
-    modal.scrollTop = 0;
-    requestAnimationFrame(function () {
+  // 推薦主題：固定為該類型的 3 個主題，E／S／G 型把選過的排到前面；平均型順序固定
+  function getTopics(type, defaults) {
+    if (type === 'B') return defaults;
+    function isPicked(id) {
+      return picks.some(function (opt) {
+        return opt.dataset.topic === id;
+      });
+    }
+    return defaults.filter(isPicked).concat(defaults.filter(function (id) {
+      return !isPicked(id);
+    }));
+  }
+
+  function renderTopics(ids) {
+    topics.forEach(function (topic) {
+      topic.hidden = true;
+    });
+    ids.forEach(function (id) {
+      const topic = modal.querySelector('[data-quiz-topic="' + id + '"]');
+      const pick = picks.find(function (opt) {
+        return opt.dataset.topic === id;
+      });
+      // 沒選過的主題，帶入題目中第一個對應選項的文字
+      const opt = pick || modal.querySelector('.quiz-opt[data-topic="' + id + '"]');
+      topic.querySelector('.quiz-topic-label').textContent = pick ? '你選過的主題' : '延伸閱讀';
+      topic.querySelector('.quiz-topic-txt').textContent = opt.querySelector('.quiz-opt-txt').textContent;
+      topic.hidden = false;
+      topicWrap.appendChild(topic); // 依推薦順序排列
+    });
+  }
+
+  function renderScores(scores) {
+    const max = total * 3;
+    modal.querySelectorAll('[data-quiz-score]').forEach(function (row) {
+      const value = scores[row.dataset.quizScore];
+      const bar = row.querySelector('.quiz-score-bar');
+      row.querySelector('.quiz-score-num b').textContent = value;
+      // 長條先歸零再長到分數
+      bar.style.transition = 'none';
+      bar.style.width = 0;
       requestAnimationFrame(function () {
-        ring.style.transition = '';
-        ring.style.strokeDashoffset = 100 - rate;
+        requestAnimationFrame(function () {
+          bar.style.transition = '';
+          bar.style.width = value / max * 100 + '%';
+        });
       });
     });
   }
 
+  function finish() {
+    const scores = getScores();
+    const type = getType(scores);
+    const current = modal.querySelector('[data-quiz-type="' + type + '"]');
+
+    modal.querySelectorAll('[data-quiz-type]').forEach(function (block) {
+      block.hidden = block !== current;
+    });
+    modal.querySelectorAll('[data-quiz-entry]').forEach(function (entry) {
+      entry.hidden = entry.dataset.quizEntry !== type;
+    });
+    renderTopics(getTopics(type, current.dataset.default.split(',')));
+    show('result');
+    renderScores(scores);
+    focusTitle(current.querySelector('.quiz-type-title'));
+  }
+
   function choose(item, btn) {
-    const opts = Array.from(item.querySelectorAll('.quiz-opt'));
-    const answer = Number(item.dataset.answer);
-    const right = opts[answer];
-
-    opts.forEach(function (opt) {
+    item.querySelectorAll('.quiz-opt').forEach(function (opt) {
       opt.disabled = true;
-      if (opt !== right && opt !== btn) opt.classList.add('is-dim');
+      opt.classList.add(opt === btn ? 'is-picked' : 'is-dim');
     });
-    mark(right, 'is-correct', 'bi-check-lg', '正確答案');
+    // 櫃門的字母換成勾（字母由 CSS 隱藏），文字說明留給螢幕閱讀器
+    const mark = document.createElement('i');
+    mark.className = 'quiz-opt-mark bi bi-check-lg';
+    mark.setAttribute('role', 'img');
+    mark.setAttribute('aria-label', '已選擇');
+    btn.querySelector('.quiz-opt-door').appendChild(mark);
 
-    if (btn === right) {
-      score++;
-      scoreEl.textContent = score;
-      later(next, CORRECT_DELAY);
-      return;
-    }
-
-    mark(btn, 'is-wrong', 'bi-x-lg', '你的答案');
-    ansEl.textContent = LETTERS[answer] + '. ' + right.querySelector('.quiz-opt-txt').textContent;
-    explainEl.textContent = item.dataset.explain || '';
-    explainEl.hidden = !item.dataset.explain;
-    nextBtn.querySelectorAll('.btn-base-txt span').forEach(function (span) {
-      span.textContent = index === total - 1 ? '查看結果' : '下一題';
-    });
-    later(function () {
-      wrong.classList.add('is-show');
-    }, WRONG_DELAY);
+    picks[index] = btn;
+    later(next, NEXT_DELAY);
   }
 
   function reset() {
     timers.forEach(clearTimeout);
     timers = [];
     index = 0;
-    score = 0;
-    scoreEl.textContent = 0;
-    wrong.classList.remove('is-show');
+    picks = [];
     items.forEach(function (item) {
       item.querySelectorAll('.quiz-opt').forEach(function (opt) {
         opt.disabled = false;
-        opt.classList.remove('is-correct', 'is-wrong', 'is-dim');
+        opt.classList.remove('is-picked', 'is-dim');
       });
-      item.querySelectorAll('.quiz-opt-mark').forEach(function (label) {
-        label.remove();
+      item.querySelectorAll('.quiz-opt-mark').forEach(function (mark) {
+        mark.remove();
       });
     });
     render();
+  }
+
+  function start() {
+    reset();
+    show('question');
+    focusTitle(items[0].querySelector('.quiz-q-title'));
   }
 
   items.forEach(function (item) {
@@ -1120,18 +1170,22 @@ if (typeof Fancybox !== 'undefined') {
     });
   });
 
-  modal.querySelector('[data-quiz-start]').addEventListener('click', function () {
-    show('question');
-  });
+  modal.querySelector('[data-quiz-start]').addEventListener('click', start);
+  modal.querySelector('[data-quiz-restart]').addEventListener('click', start);
 
-  nextBtn.addEventListener('click', function () {
-    wrong.classList.remove('is-show');
-    next();
-  });
-
-  modal.querySelector('[data-quiz-restart]').addEventListener('click', function () {
-    reset();
-    show('question');
+  // 推薦連結指向目前頁面的段落時不會換頁，改為關閉彈窗後再捲過去
+  modal.querySelectorAll('.quiz-topic, .quiz-entry-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      const target = link.pathname === location.pathname && link.hash ? document.querySelector(link.hash) : null;
+      if (!target) return;
+      e.preventDefault();
+      modal.addEventListener('hidden.bs.modal', function () {
+        setTimeout(function () { // 等 Bootstrap 把焦點還給開啟按鈕後再捲
+          target.scrollIntoView();
+        });
+      }, { once: true });
+      bootstrap.Modal.getOrCreateInstance(modal).hide();
+    });
   });
 
   modal.addEventListener('hidden.bs.modal', function () {

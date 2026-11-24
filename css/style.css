@@ -146,6 +146,11 @@
   color: var(--theme);
 }
 
+/* 有 id 的標題是問答互動推薦閱讀的錨點，預留固定 header 高度 */
+.h2-title[id] {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
 .sec-padding {
   padding: var(--sec-padding) 0;
 }
@@ -1474,6 +1479,18 @@
 .banner-wrap {
   position: relative;
   z-index: 0;
+  overflow: hidden;
+}
+
+/* 進場時由放大縮回原尺寸的圖層：繼承 section 的 inline 背景圖，疊在黑色遮罩（:before）下面 */
+.banner-wrap:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: inherit;
+  pointer-events: none;
+  animation: banner-zoom 1.8s cubic-bezier(.22, .61, .36, 1) backwards;
 }
 
 .banner-wrap:before {
@@ -1496,6 +1513,27 @@
   padding: calc(var(--header-height) + 80px) 0 120px;
   text-align: center;
   margin-bottom: 0;
+  animation: banner-title 1.2s ease-out .3s backwards;
+}
+
+@keyframes banner-zoom {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes banner-title {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-wrap:after,
+  .banner-wrap .banner-h1 {
+    animation: none;
+  }
 }
 
 .breadcrumb-wrap li:not(:last-child):after {
@@ -5880,6 +5918,7 @@ html:has(.status-page) body {
 
 .quiz-start-title {
   margin-bottom: 24px;
+  text-wrap: balance;
   font-size: var(--fs-h3Title);
   font-weight: 700;
   line-height: 1.5;
@@ -5914,18 +5953,6 @@ html:has(.status-page) body {
   font-size: var(--fs-h4Title);
   font-weight: 700;
   line-height: 1.5;
-}
-
-.quiz-score {
-  margin-bottom: 0;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.quiz-score b {
-  margin: 0 4px;
-  font-size: var(--fs-itemTitle);
-  font-weight: 600;
 }
 
 .quiz-route {
@@ -6007,8 +6034,15 @@ html:has(.status-page) body {
   color: var(--txt-gray);
 }
 
+.quiz-q-cate {
+  margin: 12px 0 0;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  color: var(--txt-gray);
+}
+
 .quiz-q-title {
-  margin: 12px 0 24px;
+  margin: 4px 0 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid #D9D9D9;
   font-size: var(--fs-itemTitle);
@@ -6097,28 +6131,21 @@ html:has(.status-page) body {
   letter-spacing: 1px;
 }
 
-/* 選項作答後狀態：正確（青）、你的答案（橘，搖晃）、其餘變淡 */
+/* 選項作答後狀態：已選（淡底、字母換成勾），其餘變淡 */
 .quiz-opt:disabled {
   color: var(--black);
   cursor: default;
 }
 
-.quiz-opt.is-correct {
-  background-color: var(--light-teal);
-}
-
-.quiz-opt.is-wrong {
-  background-color: var(--light-orange);
-  animation: quiz-shake .35s;
+.quiz-opt.is-picked {
+  background-color: color-mix(in srgb, var(--c), #fff 85%);
 }
 
 .quiz-opt.is-dim {
   opacity: .4;
 }
 
-/* 作答後櫃門的字母換成勾／叉，不佔文字空間 */
-.quiz-opt.is-correct .quiz-opt-door b,
-.quiz-opt.is-wrong .quiz-opt-door b {
+.quiz-opt.is-picked .quiz-opt-door b {
   display: none;
 }
 
@@ -6132,98 +6159,13 @@ html:has(.status-page) body {
   display: block;
 }
 
-@keyframes quiz-shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+/* 題目、類型標題由 JS 移入焦點（給螢幕閱讀器），不顯示外框 */
+.quiz-q-title:focus,
+.quiz-type-title:focus {
+  outline: none;
 }
 
-/* 答錯視窗：蓋在彈窗內 */
-.quiz-wrong {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  background-color: rgba(5, 27, 53, .6);
-}
-
-.quiz-wrong.is-show {
-  display: flex;
-}
-
-.quiz-wrong-box {
-  width: 100%;
-  max-width: 480px;
-  max-height: 100%;
-  padding: 36px;
-  overflow-y: auto;
-  border-top: 6px solid var(--orange);
-  text-align: center;
-  background-color: var(--white);
-  box-shadow: 4px 4px 25px rgba(0, 0, 0, .2);
-}
-
-.quiz-wrong-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  font-size: 28px;
-  color: var(--white);
-  background-color: var(--orange);
-}
-
-/* Bootstrap Icons 的 ::before 預設往下偏，單獨置中時改為區塊 */
-.quiz-wrong-icon i::before {
-  display: block;
-}
-
-.quiz-wrong-title {
-  margin-bottom: 24px;
-  font-size: var(--fs-h4Title);
-  font-weight: 700;
-  line-height: 1.5;
-  color: var(--theme);
-}
-
-.quiz-ans {
-  margin-bottom: 16px;
-  padding: 12px 16px;
-  border-left: 4px solid var(--theme);
-  text-align: left;
-  background-color: var(--gray);
-}
-
-.quiz-ans-label {
-  display: block;
-  font-size: 14px;
-  line-height: 1.5;
-  letter-spacing: 1px;
-  color: var(--txt-gray);
-}
-
-.quiz-ans-txt {
-  margin-bottom: 0;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 1px;
-  color: var(--theme);
-}
-
-.quiz-explain {
-  margin-bottom: 24px;
-  line-height: 1.75;
-  letter-spacing: 1px;
-  text-align: left;
-}
-
-/* 完成頁：小船停在航線終點 */
+/* 結果頁：小船停在航線終點 */
 .quiz-bar.is-arrived .quiz-route-ship {
   left: 100%;
 }
@@ -6232,128 +6174,281 @@ html:has(.status-page) body {
   width: 100%;
 }
 
-/* 完成頁：左環狀正確率、右三格統計，767 以下上下排（版面沿用 .quiz-start） */
+/* 結果頁：類型 → 分數 → 推薦閱讀 → 閱讀入口（版面沿用 .quiz-start）
+   各面向沿用專案 ESG 配色：--esg-color 主色、--esg-bg 淡底、--esg-title 白底文字用（深一階） */
 .quiz-result {
-  padding-top: 48px;
+  padding-top: 40px;
 }
 
-.quiz-result-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px 48px;
+.quiz-result [hidden] {
+  display: none;
+}
+
+.quiz-result .is-all {
+  --esg-color: var(--theme);
+  --esg-bg: var(--light-blue);
+  --esg-title: var(--theme);
+}
+
+.quiz-result .is-env {
+  --esg-color: var(--green);
+  --esg-bg: var(--light-green);
+  --esg-title: color-mix(in srgb, var(--green), #000 40%);
+}
+
+.quiz-result .is-soc {
+  --esg-color: var(--soft-orange);
+  --esg-bg: var(--light-orange);
+  --esg-title: var(--orange);
+}
+
+.quiz-result .is-gov {
+  --esg-color: var(--teal);
+  --esg-bg: var(--light-teal);
+  --esg-title: var(--teal-dark);
+}
+
+.quiz-type {
   width: 100%;
   max-width: 760px;
+  margin-bottom: 24px;
 }
 
-.quiz-ring {
-  position: relative;
-  flex: none;
-  width: 170px;
-  height: 170px;
-}
-
-.quiz-ring svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-}
-
-.quiz-ring circle {
-  fill: none;
-  stroke-width: 12;
-}
-
-.quiz-ring-track {
-  stroke: var(--gray);
-}
-
-/* pathLength=100，dashoffset 直接等於 100 − 正確率 */
-.quiz-ring-bar {
-  stroke: var(--theme);
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  transition: stroke-dashoffset 1.2s ease;
-}
-
-.quiz-ring-val {
-  position: absolute;
-  inset: 0;
+.quiz-type-badge {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 16px;
+  border: 6px solid var(--esg-bg);
+  border-radius: 50%;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--white);
+  background-color: var(--esg-title);
 }
 
-.quiz-ring-num {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1;
+.quiz-type.is-all .quiz-type-badge {
+  font-size: 26px;
+}
+
+.quiz-type-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 16px;
+  margin-bottom: 16px;
+  font-size: var(--fs-h3Title);
+  font-weight: 700;
+  line-height: 1.5;
   color: var(--theme);
 }
 
-.quiz-ring-num b {
-  font-size: 44px;
-  font-weight: 600;
+.quiz-type-title span {
+  color: var(--esg-title);
 }
 
-.quiz-ring-label {
-  margin-top: 4px;
-  font-size: 14px;
-  line-height: 1.5;
+.quiz-type-txt {
+  line-height: 1.75;
   letter-spacing: 1px;
-  color: var(--txt-gray);
+  text-wrap: balance;
 }
 
-.quiz-stats {
-  flex: 1;
-  min-width: 0;
+/* 分數：滿分 18 */
+.quiz-scores {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  row-gap: 12px;
   width: 100%;
-  margin-bottom: 0;
-}
-
-.quiz-stats li {
-  padding: 16px 8px;
+  max-width: 640px;
+  margin-bottom: 40px;
+  padding: 20px 24px;
   background-color: var(--gray);
 }
 
-.quiz-stat-label {
-  display: block;
-  font-size: 14px;
+.quiz-score {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr) 64px;
+  align-items: center;
+  column-gap: 16px;
   line-height: 1.5;
-  letter-spacing: 1px;
-  color: var(--txt-gray);
 }
 
-.quiz-stat-num {
-  font-size: 14px;
+.quiz-score-label {
+  display: flex;
+  align-items: baseline;
+  column-gap: 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.quiz-score-label b {
+  width: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--esg-title);
+}
+
+.quiz-score-track {
+  height: 14px;
+  background-color: var(--white);
+}
+
+.quiz-score-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background-color: var(--esg-color);
+  transition: width 1s ease;
+}
+
+.quiz-score-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.quiz-score-num b {
+  margin-right: 4px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--esg-title);
+}
+
+/* 推薦閱讀 */
+.quiz-topics-title {
+  margin-bottom: 16px;
+  font-size: var(--fs-itemTitle);
+  font-weight: 700;
   line-height: 1.5;
   color: var(--theme);
 }
 
-.quiz-stat-num b {
+.quiz-topics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.quiz-topic {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  border: 1px solid var(--esg-color);
+  border-top-width: 6px;
+  text-align: left;
+  background-color: var(--white);
+  transition: background-color .3s ease;
+}
+
+.quiz-topic:hover,
+.quiz-topic:focus-visible {
+  background-color: var(--esg-bg);
+}
+
+.quiz-topic-label {
+  margin-bottom: 8px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--esg-title);
+  background-color: var(--esg-bg);
+  transition: background-color .3s ease;
+}
+
+.quiz-topic:hover .quiz-topic-label,
+.quiz-topic:focus-visible .quiz-topic-label {
+  background-color: var(--white);
+}
+
+.quiz-topic-title {
+  margin-bottom: 4px;
+  font-size: var(--fs-cate);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--theme);
+}
+
+.quiz-topic-txt {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.quiz-topic-more {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  margin-top: auto;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--esg-title);
+}
+
+.quiz-topic-more i::before,
+.quiz-entry-link i::before {
+  display: block;
+}
+
+.quiz-topic-more i {
+  transition: transform .3s ease;
+}
+
+.quiz-topic:hover .quiz-topic-more i {
+  transform: translateX(6px);
+}
+
+/* 閱讀入口 */
+.quiz-entry {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.quiz-entry-label {
   margin-right: 4px;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  color: var(--theme);
 }
 
-.quiz-stats .is-right .quiz-stat-num {
-  color: var(--teal-dark);
-}
-
-.quiz-stats .is-wrong .quiz-stat-num {
-  color: var(--orange);
-}
-
-.quiz-result-txt {
-  margin: 24px 0;
+.quiz-entry-link {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 8px;
+  padding: 6px 20px;
+  border-radius: 30px;
   line-height: 1.75;
-  letter-spacing: 1px;
+  color: var(--esg-title);
+  background-color: var(--esg-bg);
+  transition: color .3s ease, background-color .3s ease;
+}
+
+.quiz-entry-link i {
+  font-size: 14px;
+}
+
+.quiz-entry-link:hover,
+.quiz-entry-link:focus-visible {
+  color: var(--white);
+  background-color: var(--esg-title);
+}
+
+.quiz-note {
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--txt-gray);
+}
+
+.quiz-result .quiz-note {
+  margin-bottom: 24px;
 }
 
 .quiz-result-btns {
@@ -6406,12 +6501,11 @@ html:has(.status-page) body {
 
 @media (prefers-reduced-motion: reduce) {
   .quiz-wave,
-  .quiz-route-ship,
-  .quiz-opt.is-wrong {
+  .quiz-route-ship {
     animation: none;
   }
 
-  .quiz-ring-bar {
+  .quiz-score-bar {
     transition: none;
   }
 }
@@ -8492,13 +8586,10 @@ html:has(.status-page) body {
 
 @media (max-width: 767px) {
 
-  /* ========== quiz-modal：完成頁環狀圖與統計改上下排 ========== */
-  .quiz-result-body {
-    flex-direction: column;
-  }
-
-  .quiz-stats {
-    flex: none;
+  /* ========== quiz-modal：結果頁推薦閱讀改單欄 ========== */
+  .quiz-topics {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 
   /* ========== quiz-modal：選項改單欄 ========== */
@@ -9194,12 +9285,32 @@ html:has(.status-page) body {
     font-size: 28px;
   }
 
-  .quiz-wrong {
+  .quiz-type-badge {
+    width: 72px;
+    height: 72px;
+    font-size: 36px;
+  }
+
+  .quiz-type.is-all .quiz-type-badge {
+    font-size: 22px;
+  }
+
+  .quiz-scores {
     padding: 16px;
   }
 
-  .quiz-wrong-box {
-    padding: 24px;
+  .quiz-score {
+    grid-template-columns: 100px minmax(0, 1fr) 48px;
+    column-gap: 8px;
+  }
+
+  .quiz-topic {
+    padding: 16px;
+  }
+
+  .quiz-entry-label {
+    width: 100%;
+    margin-right: 0;
   }
 
   .quiz-des {
