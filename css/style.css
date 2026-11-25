@@ -1610,6 +1610,23 @@
   margin-bottom: 0;
 }
 
+/* 有小標的段落改色塊：環境用綠、治理用青綠（同 ESG 分組色） */
+.chairman-block {
+  margin-bottom: 24px;
+  padding: 32px 36px;
+  background: var(--light-green);
+  border-radius: 0 80px 0 0;
+}
+
+.chairman-block.is-gov {
+  background: var(--light-teal);
+}
+
+.chairman-block .item-title {
+  margin-bottom: 12px;
+  color: var(--theme);
+}
+
 /* 右欄撐滿 section 高度，人物以 flex-end 貼底，sticky bottom 讓它黏在視窗底部 */
 .chairman-pic {
   position: relative;
@@ -2396,6 +2413,50 @@
 }
 
 /* ==========================================================
+==tint-table：換色表格（environment_4 資產營建、CII 等級；social_1 新進、離職 2023 紫、2024 青綠，沿用 .perf-table，僅覆寫顏色，色票同 .text-table.is-env）
+========================================================== */
+.tint-table.is-teal {
+  --tt: var(--teal-dark);
+  --tt-bg: var(--light-teal);
+}
+
+/* 紫色同 governance_4 .purchase 色環；淺底為同色調淡 */
+.tint-table.is-purple {
+  --tt: #7676AA;
+  --tt-bg: #E8E8F2;
+}
+
+.perf-table.tint-table thead th {
+  background: var(--tt);
+}
+
+.perf-table.tint-table tbody tr th {
+  background: var(--tt-bg);
+}
+
+.perf-table.grade-table.tint-table tbody tr th,
+.perf-table.hire-table.tint-table tbody tr th {
+  color: var(--tt);
+}
+
+/* 第 2 層以下表頭 */
+.perf-table.hire-table.tint-table thead tr + tr th {
+  color: var(--tt);
+  background: var(--tt-bg);
+}
+
+/* 紫色字在淺紫底上對比較低，改用深藍 */
+.perf-table.hire-table.tint-table.is-purple thead tr + tr th,
+.perf-table.hire-table.tint-table.is-purple tbody tr th {
+  color: var(--deep-blue);
+}
+
+.perf-table.tint-table tbody th::after,
+.perf-table.tint-table td::after {
+  background: var(--tt);
+}
+
+/* ==========================================================
 ==review-table：績效考核比例（social_4，沿用 .perf-table，僅覆寫差異）
    放在 col-xl-7 半欄內，第一欄 482px 太寬，改為 320px（放得下「接受考核的男性員工比例(%)」）
 ========================================================== */
@@ -2830,12 +2891,84 @@
   font-weight: 700;
 }
 
+/* 三張等寬白卡：圖示、標題、說明 */
+.committee-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.committee-card {
+  padding: 36px;
+  color: var(--black);
+  background: var(--white);
+  border: 6px solid var(--deep-blue);
+}
+
+.committee-card .text-icon {
+  margin-bottom: 16px;
+}
+
+.committee-card .item-title {
+  margin-bottom: 8px;
+}
+
 /* ==========================================================
 ==exec：永續發展執行
 ========================================================== */
 .exec-head {
   max-width: 952px;
   margin: 0 auto 48px;
+}
+
+/* 次數色塊：大數字、標題、說明三行置中 */
+.exec-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.exec-stat {
+  --stat-color: var(--theme);
+  padding: 24px;
+  text-wrap: balance;
+  border-bottom: 4px solid var(--stat-color);
+  background: var(--light-blue);
+}
+
+.exec-stat.is-orange {
+  --stat-color: var(--orange);
+  background: #FDF3E5;
+}
+
+.exec-stats.is-center {
+  text-align: center;
+  word-break: keep-all; /* 標題只在 <wbr> 斷行 */
+}
+
+.exec-stat.is-teal {
+  --stat-color: var(--teal-dark);
+  background: var(--light-teal);
+}
+
+.exec-num {
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.exec-num b {
+  margin-right: 4px;
+  font-family: var(--font-en);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--stat-color);
+}
+
+.exec-stat .item-title {
+  margin-bottom: 4px;
+  color: var(--stat-color);
 }
 
 .duty-box {
@@ -2884,6 +3017,11 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px 22px;
   margin: 0;
+}
+
+/* is-odd：單數項時最後一項撐滿整列（social_3） */
+.duty-list.is-odd .duty-item:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 /* 編號在白底名稱左上：白底從 24px 開始，文字從 72px 開始 */
@@ -3118,6 +3256,18 @@
   color: var(--theme);
 }
 
+/* 對象圖示：與標題同列置中 */
+.stake-title:has(.text-icon) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.stake-title .text-icon {
+  background: var(--orange);
+}
+
 /* 四欄，每欄自帶表頭；單數欄 theme / gray，雙數欄 deep-blue / light-blue */
 .stake-grid {
   display: grid;
@@ -3141,6 +3291,10 @@
   color: var(--white);
   background: var(--theme);
   border-radius: 30px 30px 0 0;
+}
+
+.stake-col-head i {
+  margin-right: 12px;
 }
 
 .stake-col:nth-child(even) .stake-col-head {
@@ -3471,7 +3625,7 @@
 /* ==========================================================
 ==risk-flow：風險管理流程（藍、橘交錯的箭頭方塊）
    方塊與箭頭是同一個 ::before 用 clip-path 切出來的形狀：
-   --point 右側箭頭寬度（往右凸出蓋到間距與下一塊），--notch 左側 V 字凹槽深度
+   --p【oint 右側箭頭寬度（往右凸出蓋到間距與下一塊），--notch 左側 V 字凹槽深度
    箭頭高 48、寬 24；凹槽與箭頭同形，方塊間距 12，箭頭外圍自然留出一圈縫
 ========================================================== */
 .risk-flow {
@@ -3479,7 +3633,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 74px 12px;
   /* 圖示圓形凸出方塊上緣 50px */
-  margin-top: 98px;
+  margin-top: 70px;
 }
 
 .risk-step {
@@ -3940,6 +4094,21 @@
   gap: 24px;
 }
 
+/* is-row：兩張並排 */
+.check-list.is-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* 兩張等高：費用列貼齊底部 */
+.check-list.is-row .check-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.check-list.is-row .check-stats {
+  flex: 1;
+}
+
 .check-card {
   display: flex;
   flex-direction: column;
@@ -4378,6 +4547,1279 @@
 
 .photo-frame.deep-blue {
   border: 6px solid var(--deep-blue);
+}
+
+/* ==========================================================
+==text-table：說明文字表（environment_5、governance_1，沿用 .perf-table，僅覆寫差異）
+   列標題＝名稱、編號（governance_1）或圖示＋名稱（environment_5）；--tt / --tt-bg 為分類色；767 以下每列改上下堆疊，不橫向捲動
+========================================================== */
+.text-table,
+.cate-head {
+  --tt: var(--theme);
+  --tt-bg: var(--light-blue);
+}
+
+.is-env:is(.text-table, .cate-head) {
+  --tt: var(--teal-dark);
+  --tt-bg: var(--light-teal);
+}
+
+.is-soc:is(.text-table, .cate-head) {
+  --tt: #C44803;
+  --tt-bg: var(--light-orange);
+}
+
+.is-sup:is(.text-table, .cate-head) {
+  --tt: var(--deep-blue);
+  --tt-bg: var(--soft-blue);
+}
+
+.perf-table.text-table {
+  min-width: 0;
+}
+
+.perf-table.text-table thead th {
+  background: var(--tt);
+}
+
+.perf-table.text-table thead th:first-child {
+  width: 190px;
+}
+
+.perf-table.text-table th,
+.perf-table.text-table td {
+  padding: 16px 24px;
+}
+
+.perf-table.text-table tbody th {
+  padding: 16px 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--tt);
+  background: var(--tt-bg);
+}
+
+.perf-table.text-table td {
+  white-space: normal;
+  text-align: left;
+}
+
+.bg-gray .perf-table.text-table td {
+  background: var(--white);
+}
+
+.perf-table.text-table tbody th::after,
+.perf-table.text-table td::after {
+  background: var(--tt);
+}
+
+.perf-table.text-table tbody th > span {
+  display: block;
+}
+
+.perf-table.text-table td p {
+  margin-bottom: 12px;
+}
+
+.perf-table.text-table td p:last-child {
+  margin-bottom: 0;
+}
+
+.perf-table.text-table.is-qa thead th:first-child,
+.perf-table.text-table.is-duty thead th:first-child {
+  width: 120px;
+}
+
+.perf-table.text-table.is-qa thead th:nth-child(2) {
+  width: 36%;
+}
+
+.perf-table.text-table .is-q {
+  font-weight: 700;
+  color: var(--tt);
+}
+
+.text-no {
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+/* 圖示圓形：底色跟著分類色 */
+.text-icon,
+.perf-table.text-table tbody th > .text-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: var(--white);
+  background: var(--tt, var(--theme));
+}
+
+/* 圓形內改用圖檔（白色線條圖示）時，佔圓形 68%，跟著圓形縮放 */
+.text-icon img {
+  width: 68%;
+  height: auto;
+}
+
+.perf-table.text-table tbody th > .text-icon {
+  margin: 0 auto 8px;
+}
+
+/* 分類標題（governance_1） */
+.cate-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 32px;
+  border-radius: 40px;
+  color: var(--tt);
+  background: var(--tt-bg);
+}
+
+/* 重點提示條 */
+.note-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #FDF3E5;
+}
+
+.note-bar .text-icon {
+  background: var(--orange);
+}
+
+.note-bar.is-blue {
+  background: var(--light-blue);
+}
+
+.note-bar.is-blue .text-icon {
+  background: var(--theme);
+}
+
+.note-bar.is-green {
+  background: var(--light-green);
+}
+
+.note-bar.is-green .text-icon {
+  background: var(--green);
+}
+
+/* ==========================================================
+==factor：五格圖示方塊（environment_1 驅動因子、environment_4 減碳措施、environment_6 SDG 14）
+   五格等寬；1199 以下一列三格、置中，767 以下直排（圖示在左）
+========================================================== */
+.factor-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 48px;
+}
+
+.factor-item {
+  flex: 0 0 calc((100% - 64px) / 5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  text-wrap: balance;
+  word-break: keep-all; /* 只在 <wbr> 斷行，避免切開詞 */
+  overflow-wrap: anywhere;
+  background: var(--white);
+}
+
+/* 白底區塊上改用灰底方塊 */
+.factor-list.is-gray {
+  margin-bottom: 24px;
+}
+
+.factor-list.is-gray .factor-item {
+  background: var(--gray);
+}
+
+/* 六格等寬（social_3 危險作業） */
+.factor-list.is-6 .factor-item {
+  flex-basis: calc((100% - 80px) / 6);
+}
+
+/* ==========================================================
+==time：溫室氣體盤查時程（environment_4），左側圓點與直線、右側時間標籤＋說明；767 以下標籤在上
+========================================================== */
+.time-list {
+  margin: 0 0 48px;
+}
+
+.time-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  padding: 0 0 24px 40px;
+}
+
+.time-item:last-child {
+  padding-bottom: 0;
+}
+
+/* 圓點 20，中心對齊標籤（標籤高 = 行高 1.75em + 上下內距 8） */
+.time-item::before {
+  content: '';
+  position: absolute;
+  top: calc(.875em - 6px);
+  left: 0;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border: 4px solid var(--theme);
+  border-radius: 50%;
+  background: var(--white);
+}
+
+.time-item:last-child::before {
+  border-color: var(--orange);
+}
+
+.time-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 1em;
+  bottom: -1em;
+  left: 9px;
+  width: 2px;
+  background: #A7CDE9;
+}
+
+.time-label {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.time-item:last-child .time-label {
+  background: var(--orange);
+}
+
+.time-item p {
+  padding-top: 4px;
+  text-wrap: pretty;
+}
+
+/* ==========================================================
+==scope：溫室氣體範疇三張卡（environment_4）
+========================================================== */
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.scope-card {
+  --scope-color: var(--theme);
+  padding: 36px;
+  background: var(--light-blue);
+}
+
+.scope-card:nth-child(2) {
+  --scope-color: var(--teal-dark);
+  background: var(--light-teal);
+}
+
+.scope-card:nth-child(3) {
+  --scope-color: var(--orange);
+  background: #FDF3E5;
+}
+
+.scope-card .text-icon {
+  margin-bottom: 16px;
+  background: var(--scope-color);
+}
+
+.scope-card .item-title {
+  margin-bottom: 8px;
+  text-wrap: balance;
+  color: var(--scope-color);
+}
+
+.scope-card p {
+  text-wrap: pretty;
+}
+
+/* 兩張並排（social_3 職災事件） */
+.scope-grid.is-2 {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); /* 依字數分配，兩張高度相近 */
+}
+
+/* ==========================================================
+==tree：教育訓練分類樹狀圖（social_4）
+   上方分類說明，下方職前、在職左右等寬，連線左右對稱（畫在 64 間距內，上下各 32）；991 以下改一欄、只留直線
+========================================================== */
+.tree {
+  margin-bottom: 24px;
+}
+
+.tree-root {
+  position: relative;
+  margin-bottom: 64px;
+  padding: 16px 24px;
+  border-radius: 40px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.tree-root::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 32px;
+  background: var(--theme);
+}
+
+.tree-cols {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* 橫線：兩端對齊左右兩欄中線（單欄寬的一半） */
+.tree-cols::before {
+  content: '';
+  position: absolute;
+  top: -32px;
+  right: calc((100% - 24px) / 4 - 1px);
+  left: calc((100% - 24px) / 4 - 1px);
+  height: 2px;
+  background: var(--theme);
+}
+
+.tree-col {
+  --tree-color: var(--theme);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 36px;
+  background: var(--light-blue);
+}
+
+.tree-col.is-teal {
+  --tree-color: var(--teal-dark);
+  background: var(--light-teal);
+}
+
+.tree-col::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 32px;
+  background: var(--theme);
+}
+
+.tree-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  color: var(--tree-color);
+}
+
+.tree-head .text-icon {
+  background: var(--tree-color);
+}
+
+.tree-sub {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tree-box {
+  padding: 24px;
+  background: var(--white);
+}
+
+/* 單一白框：撐滿卡片高度，文字垂直置中 */
+.tree-box.is-fill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 24px 48px;
+}
+
+.tree-box .h5-title {
+  color: var(--tree-color);
+}
+
+/* ratio：受訓時數男女比例 */
+.ratio-box {
+  padding: 24px 36px 36px;
+  background: var(--gray);
+}
+
+.ratio-bar {
+  display: flex;
+  gap: 4px;
+  height: 56px;
+}
+
+.ratio-bar span {
+  flex: 35 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--font-en);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.ratio-bar .is-female {
+  flex-grow: 65;
+  background: var(--teal-dark);
+}
+
+/* ==========================================================
+==sift：2025 風險項目篩選（governance_2），三格等寬等高，間距 60 放箭頭（造型同 .cycle-item）
+========================================================== */
+.sift {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 60px;
+  margin-top: 36px;
+}
+
+.sift-item {
+  --stat-color: var(--theme);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  background: var(--gray);
+}
+
+.sift-item.is-orange {
+  --stat-color: var(--orange);
+  background: #FDF3E5;
+}
+
+.sift-item .item-title {
+  margin: 0;
+  color: var(--stat-color);
+}
+
+.sift-item .exec-num {
+  margin: 0;
+}
+
+.sift-cates {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 12px 32px;
+  margin: 0;
+}
+
+.sift-cates li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.sift-cates i {
+  width: 24px;
+  font-size: 20px;
+  text-align: center;
+  color: var(--theme);
+}
+
+.sift-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 18px);
+  right: -48px;
+  width: 36px;
+  height: 36px;
+  background: var(--theme);
+  clip-path: polygon(0 38.89%, 55.56% 38.89%, 55.56% 16.67%, 100% 50%, 55.56% 83.33%, 55.56% 61.11%, 0 61.11%);
+}
+
+.sift-item:nth-last-child(2)::after {
+  background: var(--orange);
+}
+
+/* ==========================================================
+==stage：2026 風險評估三階段（governance_2），標題為箭頭形，說明在下
+========================================================== */
+.stage-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+/* 白底只放在說明文字，箭頭標題的缺角透出區塊底色 */
+.stage-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-head {
+  padding: 16px 48px;
+  font-size: var(--fs-h5Title);
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--white);
+  background: var(--theme);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%, 24px 50%);
+}
+
+.stage-item:first-child .stage-head {
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+}
+
+.stage-item:nth-child(2) .stage-head {
+  background: var(--teal-dark);
+}
+
+.stage-item:last-child .stage-head {
+  background: var(--orange);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 24px 50%);
+}
+
+.stage-item p {
+  flex: 1;
+  padding: 24px 32px 32px;
+  background: var(--white);
+  margin-top: 8px;
+}
+
+/* ==========================================================
+==track：風險矩陣製作過程（governance_2），左側編號圓以直線串接
+========================================================== */
+.track-list {
+  margin: 0;
+}
+
+.track-list li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+
+.track-list li:last-child {
+  padding-bottom: 0;
+}
+
+.track-list li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 23px;
+  width: 2px;
+  background: #A7CDE9;
+}
+
+.track-no {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.track-list p {
+  padding-top: 8px;
+}
+
+/* ==========================================================
+==badge：租家徵信三張卡（governance_3），圖示圓形壓在卡片上緣
+========================================================== */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 64px;
+}
+
+.badge-card {
+  position: relative;
+  padding: 56px 36px 36px;
+  text-align: center;
+  background: var(--gray);
+}
+
+.badge-card .text-icon {
+  position: absolute;
+  top: -40px;
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 80px;
+  border: 6px solid var(--white);
+  font-size: 28px;
+}
+
+.badge-card .item-title {
+  margin-bottom: 8px;
+}
+
+.badge-card p {
+  text-align: left;
+}
+
+/* ==========================================================
+==quad：客訴處理四象限（governance_3），中央圓形圖示壓在四格交界
+========================================================== */
+.quad {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quad-item {
+  --quad-color: var(--theme);
+  padding: 48px 56px;
+  background: var(--light-blue);
+}
+
+.quad-item:nth-child(2),
+.quad-item:nth-child(3) {
+  --quad-color: var(--teal-dark);
+  background: var(--light-teal);
+}
+
+.quad-item .item-title {
+  margin-bottom: 8px;
+  color: var(--quad-color);
+}
+
+.quad-core {
+  position: absolute;
+  top: calc(50% - 46px);
+  left: calc(50% - 46px);
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 8px solid var(--white);
+  border-radius: 50%;
+  font-size: 32px;
+  color: var(--white);
+  background: var(--orange);
+}
+
+/* 箭頭流程用 Font Awesome 圖示時 */
+.risk-step-icon i {
+  font-size: 40px;
+  color: var(--risk-color);
+}
+
+/* ==========================================================
+==chip：驗屋重視項目（governance_3）
+========================================================== */
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+}
+
+.chip-list li {
+  padding: 8px 20px;
+  border: 1px solid var(--theme);
+  border-radius: 30px;
+  font-weight: 700;
+  color: var(--theme);
+  background: var(--white);
+}
+
+/* ==========================================================
+==seg：供應商管理五大維度（governance_4），五格分段條，左右對稱用色，紫色同 .purchase 色環
+========================================================== */
+.seg-bar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+}
+
+.seg-bar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.seg-bar li:first-child {
+  border-radius: 60px 0 0 60px;
+}
+
+.seg-bar li:last-child {
+  border-radius: 0 60px 60px 0;
+}
+
+.seg-bar i {
+  font-size: 32px;
+}
+
+.seg-bar li:nth-child(2),
+.seg-bar li:nth-child(4) {
+  background: #7676AA;
+}
+
+.seg-bar li:nth-child(3) {
+  background: #9674A6;
+}
+
+/* ==========================================================
+==top：供應商管理方針六張卡（governance_4），右下角大圖示浮水印
+========================================================== */
+.top-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.top-card {
+  position: relative;
+  isolation: isolate;
+  padding: 36px;
+  overflow: hidden;
+  background: var(--gray);
+}
+
+.top-card .item-title {
+  margin-bottom: 8px;
+  color: var(--theme);
+}
+
+.top-mark {
+  position: absolute;
+  right: -8px;
+  bottom: -12px;
+  z-index: -1;
+  font-size: 110px;
+  color: var(--theme);
+  opacity: .08;
+}
+
+/* ==========================================================
+==route：船舶安全兩欄圖示路線（governance_5），左藍右青綠，圖示以虛線串接；991 以下改一欄，767 以下圖示在上
+========================================================== */
+.route-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.route {
+  --route-color: var(--theme);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 0;
+  padding: 48px;
+  background: var(--light-blue);
+}
+
+.route.is-teal {
+  --route-color: var(--teal-dark);
+  background: var(--light-teal);
+}
+
+.route-item {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+/* 虛線：從圖示下緣接到下一個圖示（跨過項目間距 32） */
+.route-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 64px;
+  bottom: -24px;
+  left: 27px;
+  border-left: 2px dashed var(--route-color);
+}
+
+.route .text-icon {
+  background: var(--route-color);
+}
+
+.route-txt {
+  flex: 1;
+}
+
+.route-txt .item-title {
+  margin-bottom: 8px;
+  color: var(--route-color);
+}
+
+/* ==========================================================
+==fit-row：照片依原比例同高排成一列，不裁切（social_5）；575 以下改直排
+========================================================== */
+.fit-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.fit-row .is-wide { --ar: 1.331; }
+.fit-row .is-xwide { --ar: 1.668; }
+.fit-row .is-tall { --ar: .704; }
+
+.fit-row img {
+  flex: var(--ar) 1 0;
+  min-width: 0;
+  aspect-ratio: var(--ar);
+  object-fit: contain;
+}
+
+/* is-stack：左側兩張橫式上下疊、右側一張直式，1 : 1.11 時兩側等高 */
+.fit-row.is-stack {
+  align-items: center;
+}
+
+.fit-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.fit-col img {
+  flex: none;
+  width: 100%;
+}
+
+.fit-row.is-stack > .is-tall {
+  flex-grow: 1.11;
+}
+
+.num-mark {
+  margin: 0 4px;
+  font-family: var(--font-en);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--orange);
+}
+
+/* ==========================================================
+==hour：船員工作與休息時間（social_2），前兩格工作（藍）、後兩格休息（青綠）
+========================================================== */
+.hour-box {
+  padding: 48px;
+  background: var(--gray);
+}
+
+.hour-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0 0 24px;
+}
+
+.hour-item {
+  --stat-color: var(--theme);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px;
+  border-bottom: 4px solid var(--stat-color);
+  text-align: center;
+  text-wrap: balance;
+  word-break: keep-all; /* 只在 <wbr> 或標點斷行 */
+  overflow-wrap: anywhere;
+  background: var(--white);
+}
+
+.hour-item.is-rest {
+  --stat-color: var(--teal-dark);
+}
+
+/* ==========================================================
+==sdg：SDG 14 說明（environment_6）
+========================================================== */
+.sdg-box {
+  margin-top: 60px;
+  padding: 48px;
+  background: var(--light-blue);
+}
+
+.sdg-head {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.sdg-no {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--white);
+  background: var(--theme);
+}
+
+.sdg-box .factor-list {
+  margin-bottom: 24px;
+}
+
+.sdg-box > p {
+  text-wrap: balance;
+}
+
+/* ==========================================================
+==aspect：能源效率三個面向（environment_2）
+   左欄上下兩張短卡、右欄一張長卡跨兩列；991 以下改一欄
+========================================================== */
+.aspect-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.aspect-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 36px;
+  background: var(--light-blue);
+}
+
+.aspect-card:nth-child(2) {
+  background: var(--light-teal);
+}
+
+.aspect-card:nth-child(2) .text-icon {
+  background: var(--teal-dark);
+}
+
+.aspect-card.is-main {
+  grid-row: 1 / 3;
+  grid-column: 2;
+  color: var(--white);
+  background: var(--theme);
+}
+
+/* 圖檔為白色線條，深藍卡上的圓底改 deep-blue 才看得到 */
+.aspect-card.is-main .text-icon {
+  background: var(--deep-blue);
+}
+
+.aspect-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.aspect-card .item-title {
+  color: var(--theme);
+}
+
+.aspect-card:nth-child(2) .item-title {
+  color: var(--teal-dark);
+}
+
+.aspect-card.is-main .item-title {
+  color: var(--white);
+}
+
+.aspect-note {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, .4);
+}
+
+/* ==========================================================
+==fuel：燃油能源使用（environment_2），2×2 白卡，圖示在左
+========================================================== */
+.fuel-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  height: 100%;
+  padding: 36px;
+  background: var(--white);
+}
+
+.fuel-txt {
+  flex: 1;
+}
+
+.fuel-txt .item-title {
+  margin-bottom: 8px;
+}
+
+.fuel-card.is-gray {
+  background: var(--gray);
+}
+
+/* ==========================================================
+==step：淡水造水機流程（environment_3）
+   五步驟橫排，間距 36 放箭頭（造型同 .cycle-item）；1199 以下改直排（編號、標題在左），箭頭朝下
+========================================================== */
+.step-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 36px;
+  margin: 0;
+}
+
+.step-flow.is-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.step-item {
+  position: relative;
+  padding: 24px;
+  background: var(--gray);
+}
+
+.step-item:last-child {
+  background: #FDF3E5;
+}
+
+.step-no {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--theme);
+}
+
+.step-item .item-title {
+  margin-bottom: 8px;
+  color: var(--theme);
+}
+
+.step-item:last-child .step-no,
+.step-item:last-child .item-title {
+  color: var(--orange);
+}
+
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 18px);
+  right: -36px;
+  width: 36px;
+  height: 36px;
+  background: var(--theme);
+  clip-path: polygon(0 38.89%, 55.56% 38.89%, 55.56% 16.67%, 100% 50%, 55.56% 83.33%, 55.56% 61.11%, 0 61.11%);
+}
+
+/* is-inline：標題接在編號後面（1199 以下各流程本來就是同一列） */
+@media (min-width: 1200px) {
+  .step-flow.is-inline .step-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: start;
+    align-items: center;
+    gap: 12px 8px;
+  }
+
+  .step-flow.is-inline .step-no,
+  .step-flow.is-inline .item-title {
+    margin-bottom: 0;
+  }
+
+  .step-flow.is-inline p {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 指向最後一步的箭頭同橘色 */
+.step-item:nth-last-child(2)::after {
+  background: var(--orange);
+}
+
+/* ==========================================================
+==sea：食品廢棄物排放距離（environment_5），比例尺以 15 海里為全長：3 = 20%、12 = 80%
+========================================================== */
+.sea-range {
+  display: flex;
+  align-items: flex-end;
+  padding-top: 88px;
+}
+
+.sea-land {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 96px;
+  height: 72px;
+  background: #5E9A3D;
+}
+
+.sea-bar {
+  position: relative;
+  flex: 1;
+  height: 72px;
+  background: linear-gradient(to right, var(--light-blue) 20%, #7FB2D6 0 80%, var(--theme) 0);
+}
+
+.sea-mark {
+  position: absolute;
+  bottom: 0;
+  left: var(--at);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  height: 116px;
+  padding-left: 8px;
+  border-left: 2px dashed var(--orange);
+  line-height: 36px;
+  white-space: nowrap;
+}
+
+.sea-mark b {
+  font-family: var(--font-en);
+  font-size: 36px;
+  line-height: 36px;
+  color: var(--orange);
+}
+
+.sea-ship {
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  transform: translateY(-50%);
+}
+
+.sea-card {
+  height: 100%;
+  padding: 24px 32px;
+  border-left: 8px solid #7FB2D6;
+  background: var(--gray);
+}
+
+.sea-card.is-far {
+  border-color: var(--theme);
+}
+
+/* ==========================================================
+==cell-bar：表格數字下方的資料橫條（environment_5 辦公大樓廢棄物），寬度以表內最大值 0.70 換算
+========================================================== */
+.cell-bar {
+  display: block;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 5px;
+  background: #D9D9D9;
+  overflow: hidden;
+}
+
+.cell-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--theme);
+}
+
+.cell-bar.is-orange span {
+  background: var(--orange);
+}
+
+/* ==========================================================
+==ihm：IHM 證書覆蓋率（environment_5）
+========================================================== */
+.ihm-box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  padding: 36px 48px;
+  background: var(--gray);
+}
+
+.ihm-stat {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-weight: 700;
+  color: var(--theme);
+}
+
+.ihm-ring {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(var(--orange) calc(var(--p) * 1%), #D9D9D9 0);
+}
+
+.ihm-ring span {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 114px;
+  height: 114px;
+  border-radius: 50%;
+  line-height: 114px;
+  color: var(--orange);
+  background: var(--white);
+}
+
+.ihm-ring b {
+  font-family: var(--font-en);
+  font-size: 44px;
 }
 
 /* ==========================================================
@@ -8170,6 +9612,89 @@ html:has(.status-page) body {
   .album-side-block + .album-side-block {
     margin-top: 60px;
   }
+
+  .committee-card {
+    padding: 24px;
+  }
+
+  .factor-item {
+    flex-basis: calc((100% - 32px) / 3);
+  }
+
+  .step-flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .step-item {
+    display: grid;
+    grid-template-columns: 52px 64px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+  }
+
+  .step-item .step-no,
+  .step-item .item-title {
+    margin-bottom: 0;
+  }
+
+  .step-item:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -36px;
+    left: calc(50% - 18px);
+    transform: rotate(90deg);
+  }
+
+  .factor-list.is-6 .factor-item {
+    flex-basis: calc((100% - 32px) / 3);
+  }
+
+  .step-flow.is-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .step-flow.is-4 .step-item {
+    grid-template-columns: 52px 120px minmax(0, 1fr);
+  }
+
+  .top-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sift {
+    gap: 48px;
+  }
+
+  .sift-item {
+    padding: 32px 16px;
+  }
+
+  .sift-item:not(:last-child)::after {
+    right: -42px;
+  }
+
+  .sift-cates {
+    gap: 12px 16px;
+  }
+
+  .sift-cates li {
+    gap: 8px;
+  }
+
+  /* stake 四欄變窄：欄名圖示改在上方，避免折行 */
+  .stake-col-head {
+    padding: 12px 8px;
+  }
+
+  .stake-col-head i {
+    display: block;
+    width: 100%;
+    margin: 0 0 4px;
+  }
+
+  .route {
+    padding: 36px;
+  }
 }
 
 @media (max-width: 991px) {
@@ -8566,6 +10091,155 @@ html:has(.status-page) body {
 
   .quiz-waves {
     height: 100px;
+  }
+
+  .ihm-box {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .committee-cards {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 36px;
+  }
+
+  .aspect-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .aspect-card.is-main {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .scope-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .scope-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 8px 16px;
+    padding: 24px;
+  }
+
+  .scope-card .text-icon,
+  .scope-card .item-title {
+    margin-bottom: 0;
+  }
+
+  .scope-card p {
+    grid-column: 1 / -1;
+  }
+
+  .sdg-box {
+    padding: 36px;
+  }
+
+  .hour-box {
+    padding: 36px;
+  }
+
+  .hour-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .check-list.is-row,
+  .scope-grid.is-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tree-root {
+    margin-bottom: 32px;
+  }
+
+  .tree-cols {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .tree-cols::before {
+    display: none;
+  }
+
+  .sift {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sift-item:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -42px;
+    left: calc(50% - 18px);
+    transform: rotate(90deg);
+  }
+
+  .stage-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .stage-item .stage-head,
+  .stage-item:first-child .stage-head,
+  .stage-item:last-child .stage-head {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(50% + 24px) calc(100% - 12px), 50% 100%, calc(50% - 24px) calc(100% - 12px), 0 calc(100% - 12px));
+    padding-bottom: 28px;
+  }
+
+  /* 說明往上貼齊標題，朝下的箭頭疊在說明白底上 */
+  .stage-head {
+    position: relative;
+    z-index: 1;
+  }
+
+  .stage-item p {
+    margin-top: -12px;
+    padding-top: 36px;
+  }
+
+  .badge-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
+  }
+
+  .quad {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .quad-item {
+    padding: 36px;
+  }
+
+  .quad-item:nth-child(3) {
+    --quad-color: var(--theme);
+    background: var(--light-blue);
+  }
+
+  .quad-item:nth-child(4) {
+    --quad-color: var(--teal-dark);
+    background: var(--light-teal);
+  }
+
+  .quad-core {
+    display: none;
+  }
+
+  .stake-col-head {
+    padding: 16px 24px;
+  }
+
+  .stake-col-head i {
+    display: inline-block;
+    width: auto;
+    margin: 0 12px 0 0;
+  }
+
+  .route-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -9178,6 +10852,234 @@ html:has(.status-page) body {
 
   .exec-head {
     margin: 0 auto 24px;
+  }
+
+  /* text-table：每列上下堆疊，欄名列視覺隱藏 */
+  .perf-table.text-table,
+  .perf-table.text-table tbody,
+  .perf-table.text-table tr,
+  .perf-table.text-table tbody th,
+  .perf-table.text-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .perf-table.text-table {
+    position: relative;
+    padding: 8px;
+  }
+
+  .perf-table.text-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .perf-table.text-table tr + tr {
+    margin-top: 16px;
+  }
+
+  .perf-table.text-table tr:not(:has(th)) {
+    margin-top: 0;
+  }
+
+  .perf-table.text-table tbody th,
+  .perf-table.text-table td {
+    padding: 12px 16px;
+  }
+
+  .perf-table.text-table tbody th {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .perf-table.text-table tbody th::after {
+    display: none;
+  }
+
+  .perf-table.text-table td::after {
+    left: 0;
+  }
+
+  .text-icon,
+  .perf-table.text-table tbody th > .text-icon {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .ihm-box {
+    padding: 24px;
+  }
+
+  .sea-land {
+    width: 56px;
+  }
+
+  .sea-land img {
+    width: 36px;
+    height: auto;
+  }
+
+  .sea-ship {
+    display: none;
+  }
+
+  .sea-card {
+    padding: 20px;
+  }
+
+  .chairman-block {
+    padding: 24px;
+  }
+
+  .factor-item {
+    flex-basis: 100%;
+    flex-direction: row;
+    padding: 16px;
+    text-align: left;
+  }
+
+  .step-item {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 8px;
+    padding: 20px;
+  }
+
+  .step-item p {
+    grid-column: 1 / -1;
+  }
+
+  .aspect-card,
+  .fuel-card {
+    padding: 24px;
+  }
+
+  .fuel-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .time-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding-left: 32px;
+  }
+
+  .time-label {
+    justify-self: start;
+  }
+
+  .sdg-box {
+    margin-top: 48px;
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .sdg-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .sdg-no {
+    width: 72px;
+    height: 72px;
+    font-size: 36px;
+  }
+
+  .sdg-box > p {
+    text-align: left !important;
+    text-wrap: wrap;
+  }
+
+  /* ========== note-bar：icon 在上、文字在下（與卡片一致） ========== */
+  .note-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  .factor-list.is-6 .factor-item {
+    flex-basis: 100%;
+  }
+
+  .step-flow.is-4 .step-item {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .hour-box {
+    padding: 24px;
+  }
+
+  .tree-root {
+    border-radius: 16px;
+  }
+
+  .tree-col,
+  .tree-box.is-fill,
+  .ratio-box {
+    padding: 24px;
+  }
+
+  .tree-sub {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .quad-item,
+  .top-card {
+    padding: 24px;
+  }
+
+  .stage-item p,
+  .badge-card {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .seg-bar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .seg-bar li {
+    flex-direction: row;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .seg-bar li:first-child {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .seg-bar li:last-child {
+    border-radius: 0 0 16px 16px;
+  }
+
+  .seg-bar i {
+    font-size: 24px;
+  }
+
+  .risk-step-icon i {
+    font-size: 30px;
+  }
+
+  .route {
+    padding: 24px;
+  }
+
+  .route-item {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .route-item:not(:last-child)::before {
+    display: none;
   }
 }
 
@@ -9885,5 +11787,59 @@ html:has(.status-page) body {
     width: 90%;
     padding: 16px;
     border-radius: 0 65px 0 0;
+  }
+
+  .ihm-stat {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* 窄螢幕 12 海里右側空間不足，數字與單位改上下排 */
+  .sea-mark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    height: 124px;
+    padding-left: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+  }
+
+  .sea-mark b {
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .exec-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .hour-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hour-box > p {
+    text-align: left !important;
+  }
+
+  .fit-row {
+    flex-direction: column;
+  }
+
+  .fit-col {
+    width: 100%;
+  }
+
+  .fit-row img,
+  .fit-row.is-stack > .is-tall {
+    flex: none;
+    width: 100%;
+  }
+
+  .top-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
