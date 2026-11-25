@@ -1081,7 +1081,6 @@ if (typeof Fancybox !== 'undefined') {
       });
       // 沒選過的主題，帶入題目中第一個對應選項的文字
       const opt = pick || modal.querySelector('.quiz-opt[data-topic="' + id + '"]');
-      topic.querySelector('.quiz-topic-label').textContent = pick ? '你選過的主題' : '延伸閱讀';
       topic.querySelector('.quiz-topic-txt').textContent = opt.querySelector('.quiz-opt-txt').textContent;
       topic.hidden = false;
       topicWrap.appendChild(topic); // 依推薦順序排列

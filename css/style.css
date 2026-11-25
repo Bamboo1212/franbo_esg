@@ -6350,21 +6350,6 @@ html:has(.status-page) body {
   background-color: var(--esg-bg);
 }
 
-.quiz-topic-label {
-  margin-bottom: 8px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--esg-title);
-  background-color: var(--esg-bg);
-  transition: background-color .3s ease;
-}
-
-.quiz-topic:hover .quiz-topic-label,
-.quiz-topic:focus-visible .quiz-topic-label {
-  background-color: var(--white);
-}
-
 .quiz-topic-title {
   margin-bottom: 4px;
   font-size: var(--fs-cate);
