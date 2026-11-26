@@ -4152,6 +4152,12 @@
   color: var(--black);
 }
 
+/* 檢查人數數字放大（social_3 61、356） */
+.check-stats dd.font-en {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
 .check-cost {
   display: flex;
   flex-wrap: wrap;
@@ -11392,6 +11398,10 @@ html:has(.status-page) body {
 
   .check-stats > div {
     padding: 16px;
+  }
+
+  .check-stats dd.font-en {
+    font-size: 36px;
   }
 
   /* ========== train：icon 圓縮為 64，內距縮小，編號與標題間距 12 ========== */
