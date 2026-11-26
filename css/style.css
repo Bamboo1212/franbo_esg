@@ -3293,8 +3293,15 @@
   border-radius: 30px 30px 0 0;
 }
 
-.stake-col-head i {
+.stake-col-head :is(i, img) {
   margin-right: 12px;
+}
+
+.stake-col-head img {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: -5px;
 }
 
 .stake-col:nth-child(even) .stake-col-head {
@@ -4998,6 +5005,11 @@
   background: var(--teal-dark);
 }
 
+.ratio-bar img {
+  width: 36px;
+  height: 36px;
+}
+
 /* ==========================================================
 ==sift：2025 風險項目篩選（governance_2），三格等寬等高，間距 60 放箭頭（造型同 .cycle-item）
 ========================================================== */
@@ -5054,6 +5066,11 @@
   font-size: 20px;
   text-align: center;
   color: var(--theme);
+}
+
+.sift-cates .text-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .sift-item:not(:last-child)::after {
@@ -5227,6 +5244,11 @@
   color: var(--quad-color);
 }
 
+.quad-core img {
+  width: 46px;
+  height: 46px;
+}
+
 .quad-core {
   position: absolute;
   top: calc(50% - 46px);
@@ -5301,6 +5323,11 @@
   font-size: 32px;
 }
 
+.seg-bar img {
+  width: 40px;
+  height: 40px;
+}
+
 .seg-bar li:nth-child(2),
 .seg-bar li:nth-child(4) {
   background: #7676AA;
@@ -5334,6 +5361,9 @@
 
 .top-mark {
   position: absolute;
+  width: 110px;
+  height: 110px;
+  filter: brightness(0);
   right: -8px;
   bottom: -12px;
   z-index: -1;
@@ -9686,10 +9716,16 @@ html:has(.status-page) body {
     padding: 12px 8px;
   }
 
-  .stake-col-head i {
+  .stake-col-head :is(i, img) {
     display: block;
     width: 100%;
     margin: 0 0 4px;
+  }
+
+  /* 圖檔不可拉寬：固定 24px 置中 */
+  .stake-col-head img {
+    width: 24px;
+    margin: 0 auto 4px;
   }
 
   .route {
@@ -10232,9 +10268,14 @@ html:has(.status-page) body {
     padding: 16px 24px;
   }
 
-  .stake-col-head i {
+  .stake-col-head :is(i, img) {
     display: inline-block;
     width: auto;
+    margin: 0 12px 0 0;
+  }
+
+  .stake-col-head img {
+    width: 24px;
     margin: 0 12px 0 0;
   }
 
